@@ -11,6 +11,7 @@ Page({
   },
 
   onLoad: function() {
+
     if (!wx.cloud) {
       wx.redirectTo({
         url: '../chooseLib/chooseLib',
@@ -22,7 +23,8 @@ Page({
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+
+          // 已经授权，
           wx.getUserInfo({
             success: res => {
               this.setData({
@@ -30,6 +32,33 @@ Page({
                 userInfo: res.userInfo
               })
             }
+          })
+          wx.checkSession({
+            success() {
+              // session_key 未过期，并且在本生命周期一直有效
+              //获取用户地理位置
+
+
+            },
+            fail() {
+              // session_key 已经失效，需要重新执行登录流程
+              console.log('fail')
+              // wx.login({
+              //   success(res) {
+              //     if (res.code) {
+
+              //     } else {
+
+              //     }
+              //   }
+
+              // })
+            }
+          })
+
+        }else{
+          wx.redirectTo({
+            url: '/pages/login/login'
           })
         }
       }

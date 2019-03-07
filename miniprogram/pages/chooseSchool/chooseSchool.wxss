@@ -1,0 +1,32 @@
+/* miniprogram/pages/chooseSchool/chooseSchool.wxss */
+
+.search {
+  margin: 50rpx 50rpx 0;
+  font-size: 30rpx;
+}
+
+.line {
+  margin: 0 auto;
+  height: 2rpx;
+  width: 100%;
+  background-color: #d8d8d8;
+}
+
+.search-content-body {
+  height: 60%;
+}
+
+.search-result-item {
+  margin: 20rpx 50rpx;
+}
+
+.bottom {
+  border-radius: 80rpx;
+  margin-left: 20%;
+  margin-bottom: 300rpx;
+  width: 60%;
+  text-align: center;
+  font-size: 35rpx;
+  position: fixed;
+  bottom: 0;
+}

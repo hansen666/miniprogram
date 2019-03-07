@@ -14,7 +14,6 @@ cloud.init()
  */
 exports.main = (event, context) => {
   console.log(event)
-  console.log("hansen")
   console.log(context)
 
   // 可执行其他自定义逻辑

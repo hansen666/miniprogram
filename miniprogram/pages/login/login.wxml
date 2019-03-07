@@ -1,0 +1,10 @@
+<view class="header">
+  <image src="/images/weChatIcon.jpg"></image>
+</view>
+<view class="content">
+  申请获取以下权限
+  <text>获取你的公开信息(昵称，头像等)  </text>
+</view>
+<button class="bottom" type="primary" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="binGetUserInfo">
+  登录授权
+</button>

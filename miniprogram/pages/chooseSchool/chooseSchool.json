@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "searchHighlightTextView": "../../component/searchHilightTextView/searchHilightTextView"
+  },
+  "navigationBarTitleText": "选择学校"
+}
+
