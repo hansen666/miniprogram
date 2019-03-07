@@ -1,12 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/userConsole/userConsole",
-    "pages/storageConsole/storageConsole",
-    "pages/databaseGuide/databaseGuide",
-    "pages/addFunction/addFunction",
-    "pages/deployFunctions/deployFunctions",
-    "pages/chooseLib/chooseLib",
     "pages/login/login",
     "pages/chooseSchool/chooseSchool",
     "pages/wishWall/wishWall",
@@ -30,21 +24,24 @@
       },
       {
         "pagePath": "pages/wishWall/wishWall",
-         "iconPath": "images/index.png",
+         "iconPath": "images/wishWall.jpg",
         "text": "心愿墙"
       },
       {
         "pagePath": "pages/publish/publish",
+        "iconPath":"images/publish.png",
         "text": "发布"
       },
       {
         "pagePath": "pages/message/message",
+        "iconPath":"images/message.png",
         "text": "消息"
       },
       {
         "pagePath": "pages/myHome/myHome",
+        "iconPath":"images/myHome.jpg",
         "text": "我的"
-      },
+      }
 
     ]
   }
