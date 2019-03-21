@@ -1,1 +1,97 @@
 /* miniprogram/pages/wishWall/wishWall.wxss */
+@import "../../style/guide.wxss";
+
+.label-list{
+  display: flex;
+  white-space: nowrap;
+  border-bottom: solid 1rpx #aaa;
+}
+
+.label-item{
+  width: auto;
+  height:80rpx;
+  line-height: 80rpx;
+  font-size: 30rpx;
+  margin-left: 30rpx;
+  display: inline-block;
+}
+
+.label-list .active{
+  font-size:40rpx;
+  color: red;
+}
+
+.list{
+  margin-top:0
+}
+.lis-item{
+  justify-content: space-between;
+  height:220rpx;
+}
+
+.list-item .userinfo{
+  display: flex;
+  width: 100rpx;
+  flex-direction: column;
+   margin-right: 20rpx;
+   margin-top: 20rpx;
+   font-size: 28rpx;
+}
+.userinfo .avatarUrl{
+  width: 100%;
+  height:100rpx;
+  border-radius: 50rpx;
+}
+
+.userinfo .nickname{
+  height: 80rpx;
+  line-height: 80rpx;
+}
+
+.goods-detail{
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+}
+
+.goods-detail .title{
+  margin-top:6rpx;
+  font-size: 28rpx;
+  height: 40rpx;
+  line-height: 30rpx;
+}
+
+.goods-detail .description{
+  margin-top:10rpx;
+  height: 130rpx;
+  line-height: 30rpx;
+  font-size: 30rpx;
+}
+
+.goods-detail .pubTime{
+  height:40rpx;
+  line-height: 40rpx;
+  font-size: 28rpx;
+}
+
+.distance-item {
+  margin-top: 30rpx;
+  display: flex;
+  flex-direction: column;
+  width: 120rpx;
+  height: 100%;
+}
+
+.distance-item .location{
+  width: 100%;
+  height: 100rpx;
+}
+
+.distance-item .distance{
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 25rpx;
+  text-align: center;
+}
+

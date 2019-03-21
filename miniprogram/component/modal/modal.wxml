@@ -1,0 +1,12 @@
+<!--component/model/model.wxml-->
+  <view class="mask">
+  <view class="modal-content">
+  <view class="header">
+  <text>用户未授权</text>
+  </view>
+  <view class="content">
+  <textarea>如果需要查看物品发布者与您的距离，请按确定并在授权设置管理中打开“位置”。最后再进入小程序即可正常使用</textarea>
+  </view>
+<button open-type="openSetting" bindopensetting="callback">确定</button>
+</view>
+</view>

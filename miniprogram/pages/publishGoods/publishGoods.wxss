@@ -1,0 +1,115 @@
+/* miniprogram/pages/publishGoods/publishGoods.wxss */
+@import "../../style/guide.wxss";
+
+form {
+  font-size:30rpx;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.list {
+  border: none;
+  margin: 0;
+}
+
+.list-item {
+  height: 80rpx;
+  font-size:30rpx;
+}
+
+.label-box .label {
+  flex: 1;
+  height: 100%;
+}
+
+.label-box{
+  position: relative;
+}
+
+.right-icon {
+  height: 60rpx;
+  width: 60rpx;
+  margin-top:10rpx;
+}
+
+.label-item-list {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 80rpx;
+  right: 0;
+  text-align: right;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  width: 200rpx;
+  z-index: 100;
+}
+
+.label-item {
+  font-size: 26rpx;
+  height: 80rpx;
+  margin-right: 10rpx;
+}
+
+.description {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  height: 400rpx;
+  width: 100%;
+  padding-top:10rpx;
+}
+
+.photos {
+  display: flex;
+  flex-flow: row wrap;
+  margin-top:30rpx;
+  background-color:#fff;
+  margin-bottom: 20rpx;
+}
+
+.photos .camera, .image-item {
+  margin-right: 20rpx;
+  height: 130rpx;
+  width: 130rpx;
+}
+
+.photos .image-item {
+  position: relative;
+}
+
+.image-item .upload-image{
+  width: 100%;
+  height: 100%;
+}
+
+.image-item .delete-icon {
+  position: absolute;
+  top: 100rpx;
+  width: 130rpx;
+  height: 30rpx;
+  background-color: #aaa;
+}
+
+.delete-icon image {
+  position: absolute;
+  width: 30rpx;
+  height: 30rpx;
+  left: 50rpx;
+}
+
+.info label{
+  display: inline-flex;
+  align-items: center;
+}
+
+.info input{
+  height: 100%;
+}
+
+.bottom {
+  background-color: #1ed8f7;
+  position: fixed;
+  bottom: 10rpx;
+  width: 90%;
+  left: 5%;
+}

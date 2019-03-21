@@ -1,2 +1,15 @@
 <!--miniprogram/pages/publish/publish.wxml-->
-<text>miniprogram/pages/publish/publish.wxml</text>
+<view class="container">
+<view class="header">
+<text class="title">发布须知</text>
+</view>
+<view class="content">
+<block  wx:for="{{textArray}}" wx:key="*this">
+<text class="text-item">{{item}}</text>
+</block>
+</view>
+<view class="footer">
+<button bindtap='toGoods'>发布二手物</button>
+<button bindtap='toWishes'>发布心愿</button>
+</view>
+</view>

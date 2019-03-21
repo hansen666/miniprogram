@@ -1,0 +1,10 @@
+/* miniprogram/pages/label/label.wxss */
+@import "../../style/guide.wxss";
+
+.list{
+  margin-top:0;
+}
+
+.list-item:hover{
+ color: red;
+}

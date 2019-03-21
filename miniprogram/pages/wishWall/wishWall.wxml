@@ -1,2 +1,29 @@
 <!--miniprogram/pages/wishWall/wishWall.wxml-->
-<text>miniprogram/pages/wishWall/wishWall.wxml</text>
+<view class="container">
+  <scroll-view class="label-list" scroll-x>
+    <block wx:for="{{labelList}}" wx:key="id">
+      <view class="label-item {{currentLabel==item.id?'active':''}}" data-id="{{item.id}}" bindtap='searchByLabel'>
+        {{item.name}}
+      </view>
+    </block>
+  </scroll-view>
+  <view class="list">
+    <block wx:for="{{goodsList}}" wx:key="*this">
+      <view class="list-item"  bindtap='toDetail' data-id="{{item.id}}">
+        <view class="userinfo">
+          <image src="../../images/index.png" class="avatarUrl" />
+          <view class="nickname">{{item.nickname}}</view>
+        </view>
+        <view class="goods-detail">
+          <view class="title">{{item.name}}</view>
+          <view class="description">{{item.description}}</view>
+          <view class="pubTime">{{item.pubTime}}</view>
+        </view>
+        <view class="distance-item">
+          <image class="location" src="../../images/location.png" />
+          <view class="distance">{{item.distance}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

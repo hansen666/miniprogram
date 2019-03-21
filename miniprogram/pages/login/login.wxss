@@ -1,9 +1,12 @@
+@import "../../style/guide.wxss";
+
 .header {
-  margin: 90rpx 0 90rpx 50rpx;
-  border-bottom: 1px solid #ccc;
-  text-align: center;
-  width: 650rpx;
-  height: 300rpx;
+  display: flex;
+  width: 100%;
+  height: 400rpx;
+  justify-content: center;
+  align-items: center;
+ 
 }
 
 .header image {
@@ -11,19 +14,15 @@
   height: 200rpx;
 }
 
-.content {
-  margin-left: 50rpx;
-  margin-bottom: 90rpx;
+.info{
+  color: #999;
+  font-size:28rpx;
 }
 
-.content text {
-  display: block;
-  color: #9d9d9d;
-  margin-top: 40rpx;
-}
-
-.bottom {
+.footer {
+  width: 80%;
+  margin-top: 150rpx;
   border-radius: 80rpx;
-  margin: 70rpx 50rpx;
+  margin-left: 10%;
   font-size: 35rpx;
 }

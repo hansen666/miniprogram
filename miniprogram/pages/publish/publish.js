@@ -5,62 +5,31 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    textArray: [
+      "1，用户发布的物品经后台审核通过才会展示出来",
+      "2，求购信息将会展示在心愿墙上",
+      "3，物品上传必须上传实物照片，不得使用虚假照片",
+      "4，若发现其它违规物品，可以通过在线反馈告知系统",
+      "5，同一物品只能发布一次，不得重复发布"
+    ]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
 
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  toGoods(){
+    wx.navigateTo({
+      url: '/pages/publishGoods/publishGoods',
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+    toWishes() {
+    wx.navigateTo({
+      url: '/pages/publishWishes/publishWishes',
+    })
   }
+
 })

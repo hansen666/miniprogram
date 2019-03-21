@@ -1,43 +1,44 @@
 <!--index.wxml-->
 <view class="container">
-
-  <!-- 用户 openid -->
-  <view class="userinfo">
-    <button 
-      open-type="getUserInfo" 
-      bindgetuserinfo="onGetUserInfo"
-      class="userinfo-avatar"
-      style="background-image: url({{avatarUrl}})"
-    ></button>
-    <view>
-      <button class="userinfo-nickname" bindtap="onGetOpenid">点击获取 openid</button>
+  <view class="header">
+    <view class="search">
+      <image class=' search-icon' src='../../images/search.png' bindtap='search'></image>
+      <input name="keyword" class="key-word" focus confirm-type="search" bindconfirm="search" bindinput='inputKeyword' />
+    </view>
+    <view class="label">
+      <text bindtap='pullDown'>分类</text>
+    </view>
+    <view class="label-list" wx:if="{{showLabel}}">
+      <block wx:for="{{labelList}}" wx:key="{{id}}">
+        <view class="label-item" data-id="{{item.id}}" bindtap='searchByLabel'>{{item.name}}</view>
+      </block>
     </view>
   </view>
-
-
-  <!-- 上传图片 -->
-  <view class="uploader">
-    <view class="uploader-text" bindtap="doUpload">
-      <text>上传图片</text>
-    </view>
-    <view class="uploader-container" wx:if="{{imgUrl}}">
-      <image class="uploader-image" src="{{imgUrl}}" mode="aspectFit" bindtap="previewImg"></image>
-    </view>
+  <view class="list">
+    <block wx:for="{{goodsList}}" wx:key="*this">
+      <view class="list-item" bindtap='toDetail' data-id="{{item.id}}">
+        <image src="../../images/index.png" class="pic-url" />
+        <view class="goods-detail">
+          <view class="title">{{item.name}}</view>
+          <view class="description">{{item.description}}</view>
+          <view class="footer">
+            <view class="price"><image src="../../images/rmb.png"></image>{{item.price}}</view>
+            <view class="label">#{{item.label.name}}</view>
+            <view class="time">{{item.pubTime}}</view>
+          </view>
+        </view>
+        <view class="distance-item">
+          <image class="location" src="../../images/location.png" />
+            <view class="distance">{{item.distance}}</view>
+        </view>
+      </view>
+      
+    </block>
   </view>
+ <view class="weui-loadmore" hidden="{{isHideLoadMore}}">
+    <view class="weui-loading"></view>
+    <view class="weui-loadmore__tips">正在加载</view>
+  </view></view>
+<modal wx:if="{{showModal}}"></modal>
 
 
-  <!-- 操作数据库 -->
-  <view class="uploader">
-    <navigator url="../databaseGuide/databaseGuide" open-type="navigate" class="uploader-text">
-      <text>前端操作数据库</text>
-    </navigator>
-  </view>
-
-  <!-- 新建云函数 -->
-  <view class="uploader">
-    <navigator url="../addFunction/addFunction" open-type="navigate" class="uploader-text">
-      <text>快速新建云函数</text>
-    </navigator>
-  </view>
-
-</view>

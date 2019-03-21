@@ -12,7 +12,18 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var that = this
+     wx.getUserInfo({
+       success(res){
+         const userInfo=res.userInfo
+         const nickname = userInfo.nickname
+         const avatarUrl = userInfo.avatarUrl
+         that.setData({
+           nickname,
+           avatarUrl
+         })
+       }
+     })
   },
 
   /**

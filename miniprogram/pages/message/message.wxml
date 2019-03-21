@@ -1,2 +1,5 @@
 <!--miniprogram/pages/message/message.wxml-->
-<text>miniprogram/pages/message/message.wxml</text>
+<view class="container">
+
+</view>
+

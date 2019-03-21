@@ -8,10 +8,18 @@ Page({
   },
 
   onLoad: function(options) {
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        console.log(res)
+      }
+    })
+
     let that = this;
     wx.request({
-      url: 'http://localhost:8080/homePage/selectSchool2',
+      url: 'http://localhost:8080/login/selectSchool',
       success(res) {
+        console.log(res.data.data)
         var schoolArray = res.data.data
         that.setData({
           schoolArray: schoolArray
@@ -61,37 +69,56 @@ Page({
   },
 
   setSchool: function() {
-    if (this.data.schoolName && this.data.schoolArray.includes(this.data.schoolName)) {
-      var nickName=""
-      var avatarUrl=""
 
+    if (this.data.schoolName && this.data.schoolArray.includes(this.data.schoolName)) {
+      const schoolName = this.data.schoolName
       wx.getUserInfo({
         success: res => {
-          nickName = res.userInfo.nickName
-          avatarUrl = res.userInfo.avatarUrl
+          const nickname = res.userInfo.nickName
+          const avatarUrl = res.userInfo.avatarUrl
+          //获取登录态token
+          wx.login({
+            success(e) {
+              wx.request({
+                url: 'http://localhost:8080/login/getToken',
+                data: {
+                  code: e.code
+                },
+                success(res) {
+  
+                  const token = res.data.data.token
+
+                  wx.request({
+                    url: 'http://localhost:8080/user/addUser',
+                    method: 'POST',
+                    data: {
+                      schoolName,
+                      nickname,
+                      avatarUrl
+                    },
+                    header: {
+                      token
+                    },
+
+                    success(res) {
+                      wx.setStorage({
+                        key: 'token',
+                        data: token
+                      })
+
+                      wx.switchTab({
+                        url: '/pages/index/index',
+                      })
+                    }
+                  })
+                }
+              })
+
+
+            }
+          })
         }
       })
-      // try {
-      //   const key = wx.getStorageSync('key')
-      // } catch (e) {
-      //   // Do something when catch error
-      // }
-      // wx.request({
-      //   url: '',
-      //   method:'POST',
-      //   data:{
-      //     schoolName:this.data.schoolName,
-      //     nickName:nickName,
-      //     avatarUrl:avatarUrl,
-      //     key:key
-      //   },
-      //   success(res) {
-      //     console.log(res.data)
-      //     wx.redirectTo({
-      //       url: '/pages/index/index',
-      //     })
-      //   }
-      // })
     } else {
       wx.showModal({
         title: '警告',

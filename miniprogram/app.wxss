@@ -1,7 +1,18 @@
 /**app.wxss**/
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
 } 
+
+/* .line {
+  margin: 0 auto;
+  height: 2rpx;
+  width: 100%;
+  background-color: #d8d8d8;
+} */
+
+
+

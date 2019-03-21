@@ -1,2 +1,10 @@
 <!--miniprogram/pages/myHome/myHome.wxml-->
-<text>miniprogram/pages/myHome/myHome.wxml</text>
+<view class="container">
+  <view class="userInfo"></view>
+  <view class="id-info"></view>
+  <view class="list">
+  <view class="list-item">
+  </view>
+  </view>
+</view>
+

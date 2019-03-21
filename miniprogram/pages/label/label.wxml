@@ -1,0 +1,10 @@
+<!--miniprogram/pages/label/label.wxml-->
+<view class="container">
+  <view class="list">
+    <block wx:for="{{labelList}}" wx:key="id">
+      <view class="list-item" bindtap='chooseLabel' data-id="{{item.id}}" data-name="{{item.name}}">{{item.name}}
+      </view>
+    </block>
+</view>
+
+</view>

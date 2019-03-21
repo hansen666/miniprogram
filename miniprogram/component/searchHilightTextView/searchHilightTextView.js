@@ -26,7 +26,6 @@ Component({
    */
   methods: {
     _propertyDataChange: function (newVal) {
-      console.log(newVal)
       let searchArray = this.getHilightStrArray(newVal.name, newVal.key)
       this.setData({
         keyName: newVal.key,

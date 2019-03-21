@@ -1,0 +1,17 @@
+/* miniprogram/pages/publishWishes/publishWishes.wxss */
+
+@import "../publishGoods/publishGoods.wxss";
+
+.photos{
+  position: relative
+}
+
+.photos .camera-label{
+  display: block;
+  position: absolute;
+  top:-30rpx;
+  height: 30rpx;
+  margin-left: 20rpx;
+  font-size:28rpx;
+}
+

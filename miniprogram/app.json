@@ -1,48 +1,64 @@
 {
   "pages": [
+    "pages/myHome/myHome",
     "pages/index/index",
-    "pages/login/login",
-    "pages/chooseSchool/chooseSchool",
     "pages/wishWall/wishWall",
     "pages/publish/publish",
+    "pages/label/label",
+    "pages/chooseSchool/chooseSchool",
+    "pages/publishWishes/publishWishes",
+    "pages/publishGoods/publishGoods",
+    "pages/login/login",
     "pages/message/message",
-    "pages/myHome/myHome"
+    "pages/goodsDetail/goodsDetail",
+    "pages/wishDetail/wishDetail"
   ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "我们需要您的实时位置以帮助您查看卖家的距离"
+    }
+  },
   "window": {
-    "backgroundColor": "#F6F6F6",
+    "backgroundColor": "#1ed8f7",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarBackgroundColor": "#1ed8f7",
     "navigationBarTitleText": "校园供需助手",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
+    "selectedColor": "#1ed8f7",
     "list": [
       {
         "pagePath": "pages/index/index",
-       "iconPath" : "images/index.png",
+        "iconPath": "images/index.png",
+        "selectedIconPath": "images/index-d.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/wishWall/wishWall",
-         "iconPath": "images/wishWall.jpg",
+        "iconPath": "images/wishWall.png",
+        "selectedIconPath": "images/wishWall-d.png",
         "text": "心愿墙"
       },
       {
         "pagePath": "pages/publish/publish",
-        "iconPath":"images/publish.png",
+        "iconPath": "images/publish.png",
+        "selectedIconPath": "images/publish-d.png",
         "text": "发布"
       },
       {
         "pagePath": "pages/message/message",
-        "iconPath":"images/message.png",
+        "iconPath": "images/message.png",
+        "selectedIconPath": "images/message-d.png",
         "text": "消息"
       },
       {
         "pagePath": "pages/myHome/myHome",
-        "iconPath":"images/myHome.jpg",
+        "iconPath": "images/myHome.png",
+        "selectedIconPath": "images/myHome-d.png",
         "text": "我的"
       }
-
     ]
-  }
+  },
+  "debug": true
 }
