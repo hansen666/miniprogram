@@ -1,0 +1,40 @@
+<!--miniprogram/pages/editMessage/editMessage.wxml-->
+<view class="container">
+
+  <view class="header">
+    <image class="avatarUrl" name="avatarUrl" src="{{avatarUrl}}" />
+    <view class="upload">
+    </view>
+    <text bindtap='chooseAvatarUrl'>点击更换</text>
+  </view>
+  <form bindsubmit='save'>
+  <view class="detail list">
+    <text class="title list-item">基础资料</text>
+        <view class="list-item">
+      <text>身份</text>
+      <input class="identity" name="identity" disabled value='{{identity}}' />
+    </view>
+    <view class="list-item">
+      <text>昵称</text>
+      <input class="nickname" name="nickname" value='{{nickname}}' />
+    </view>
+    <view class="list-item">
+      <text>称呼</text>
+      <input class="real-name" placeholder='例如:陈同学' name="realName" value='{{realName}}' />
+    </view>
+    <view class="list-item">
+      <text>毕业院校</text>
+      <input class="school-name" name="schoolName" value='{{schoolName}}' style='color:{{color}}' disabled bindtap="chooseSchool"/>
+    </view>
+    <view class="list-item">
+      <text>手机号</text>
+      <input class="phone" type="number" name="phone" value='{{phone}}'  maxlength='11'/>
+    </view>
+    <view class="list-item">
+      <text>微信号</text>
+      <input class="wx-number" name="wxNumber" value='{{wxNumber}}' />
+    </view>
+  </view>
+  <button class="submit" form-type="submit" >保存</button>
+  </form>
+</view>

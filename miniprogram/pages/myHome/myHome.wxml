@@ -1,10 +1,44 @@
 <!--miniprogram/pages/myHome/myHome.wxml-->
 <view class="container">
-  <view class="userInfo"></view>
-  <view class="id-info"></view>
+  <view class="userInfo">
+    <image class="avatarUrl" src="{{avatarUrl}}" />
+    <text class="nickname">{{nickName}}</text>
+  </view>
+  <view class="id-info">
+    <view class="ID" bindtap='toIdentityConfirm'>
+      <image src="../../images/ID.png" />
+      <text>身份认证</text>
+    </view>
+    <view class="edit" bindtap='toEdit'>
+      <image src="../../images/edit.png" />
+      <text>编辑资料</text>
+    </view>
+  </view>
   <view class="list">
-  <view class="list-item">
-  </view>
-  </view>
-</view>
+    <view class="list-item" bindtap="toMySold">
+      <image src="../../images/sold.png" />
+      <text>我卖出的</text>
+      <image src="../../images/right.png" />
+    </view>
+    <view class="list-item" bindtap="toMyPublish">
+      <image src="../../images/myPublish.png" />
+      <text>我发布的</text>
+      <image src="../../images/right.png" />
 
+    </view>
+    <view class="list-item" bindtap="toMyCollection">
+      <image src="../../images/myCollection.png" />
+      <text> 我的收藏</text>
+      <image src="../../images/right.png" />
+
+    </view>
+
+    <button open-type='contact' class="contact list-item">
+      <image src="../../images/service.png" />
+      <text> 在线客服</text>
+      <image src="../../images/right.png" />
+    </button>
+
+  </view>
+
+</view>

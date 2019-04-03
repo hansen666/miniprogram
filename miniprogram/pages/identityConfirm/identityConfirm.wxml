@@ -1,0 +1,15 @@
+<!--miniprogram/pages/identityConfirm/identityConfirm.wxml-->
+<view class="container">
+
+  <view class="title">
+  <text style="font-weight:bold;">认证方式</text>
+  :国内学信网在线认证
+  <text class="help" bindtap="toHelp">查看帮助</text>
+  </view>
+  <text class="label">请输入学信网学历/学籍在线验证报告的</text>
+  <text style="font-weight:bold">在线验证码：</text>
+  <input bindinput='inputCode' class="code"  placeholder='请输入在线验证码' />
+  <text class="tip">(在线验证码通常为12或16位数字加字母)</text>
+
+  <button class="submit" bindtap='submit'>提交</button>
+</view>

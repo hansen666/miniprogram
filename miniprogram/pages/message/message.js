@@ -5,62 +5,69 @@ Page({
    * 页面的初始数据
    */
   data: {
-      showModal:true
+    messageList: [], //消息列表{userId,avatarUrl,nickname,content,pubTime,read,type}read:0-未读，1-已读
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   * 生命周期函数--监听显示
    */
-  onLoad: function (options) {
+  onShow: function(options) {
+    this.getMessageList()
+  },
 
+
+  toDetail(e){
+    const userID=e.currentTarget.dataset.userid
+    console.log(userID)
+    const nickname = e.currentTarget.dataset.nickname
+    const avatarUrl = e.currentTarget.dataset.avatarurl
+    wx.navigateTo({
+      url: '/pages/chatBox/chatBox?userID=' + userID + "&nickname=" + nickname + "&avatarUrl=" + avatarUrl
+    })
   },
 
   /**
-   * 生命周期函数--监听页面初次渲染完成
+   * 获取消息列表
    */
-  onReady: function () {
-
+  getMessageList(){
+    var that=this
+    wx.getStorage({
+      key: 'token',
+      success: function(res) {
+        const token=res.data
+        wx.request({
+          url: 'http://localhost:8080/chat/messageList',
+          header:{
+            token
+          },
+          success(res){
+            var messageList=res.data.data
+            console.log(messageList)
+            that.handleMessage(messageList);
+            that.setData({
+              messageList
+            })
+          }
+        })
+      },
+    })
   },
 
   /**
-   * 生命周期函数--监听页面显示
+   * 对返回的消息进行处理
    */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  handleMessage(messageList){
+    messageList.forEach(item=>{
+      if (item.content.length > 20) {
+        item.content = item.content.substring(0, 20) + "..."
+      }
+      if(item.type == 1){
+        item.content="[图片]"
+      }
+      if (item.type == 2) {
+        item.content = "[语音]"
+      }
+    })
   }
+
 })

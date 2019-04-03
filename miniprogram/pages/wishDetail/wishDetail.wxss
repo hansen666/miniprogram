@@ -1,180 +1,82 @@
 /* miniprogram/pages/wishDetail/wishDetail.wxss */
-.container{
-  height: 100vh;
-  margin-bottom: 120rpx;
-}
-.header{
-  display: flex;
-  width:100%;
-  height:120rpx;
-  margin:20rpx;
-  box-sizing: border-box;
-  font-size: 28rpx;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
+@import "../goodsDetail/goodsDetail.wxss";
 
-.header image{
-  margin:15rpx 20rpx ;
-  width: 90rpx;
-  height: 90rpx;
-  border-radius: 45rpx;
-}
-
-.header .nickname{
-  flex: 1;
-  height: 120rpx;
-  line-height: 120rpx;
-}
-
-.header  .identifiedLabel{
-  width: 120rpx;
-  height: 120rpx;
-  line-height: 120rpx;
-  margin-right: 40rpx;
-
-}
-
-.phones{
-  box-sizing: border-box;
-  height:400rpx;
-  width: 100%;
-}
-
-swiper{
-  display: block;
-  height: 350rpx;
-}
-
-swiper-item{
-  display: block;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  transform: translate(300%, 0px) translateZ(0px);
-will-change: 'transform'
-}
-
-swiper-item image{
-  width:100%;
-  height:100%;
-}
-
-.detail{
-  margin:20rpx;
-  display: flex;
-  flex-direction: column;
-  width:100%;
-  height:auto;
-  font-size: 28rpx;
-  padding: 0 20rpx;
-  box-sizing: border-box
-}
-
-.detail .name-price{
-  display: flex;
-  justify-content: space-between;
-  height: 40rpx;  
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1)；
-}
-
-.name-price .name{
-  height: 40rpx;
-  line-height: 40rpx;
-}
-
-.name-price .price {
-  display: flex;
-  align-items: center;
-  color: red;
-  font-size: 35rpx;
-}
-
-.name-price .price image {
-  height: 30rpx;
-  width: 30rpx;
-}
-
-.description-browse{
-  display: flex;
-  width:100%;
-}
-
-.description-browse  .description{
-  margin-top:20rpx;
-  flex: 1;
-  height:250rpx;
-  font-size: 30rpx;
-  overflow: scroll;
-}
-
-.description-browse  .browse-count{
-  display: block;
-  margin-top:150rpx;
-  width: 120rpx;
-  height:80rpx;
-  font-size: 25rpx;
-  text-align: right;
-}
-
-.pubTime{
-  text-align: right;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.contact{
+.comment-list {
+  margin-top: 80rpx;
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: auto;
+  margin-left: 20rpx;
 }
 
-
-.real-name-item,.phone-item{
-  font-size: 32rpx;
-  margin:30rpx 80rpx;
-  height: 40rpx;
-  line-height: 40rpx;
-  display: flex;
-  justify-content: space-between;
-
+.comment-list .title {
+  font-size: 36rpx;
+  margin-bottom: 30rpx;
+  border-left: 8rpx solid #1ed8f7;
 }
 
-.footer{
-  font-size: 30rpx;
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  height: 120rpx;
-  border-top:2rpx solid rgba(0, 0, 0, 0.1);
-  z-index: 100;
-}
-
-.footer .collection{
-  margin-top:10rpx;
+.comment-item {
   display: flex;
   flex-direction: column;
-  margin-left:80rpx;
-  width: 200rpx;
-  height: 120rpx;
+  width: 100%;
+  margin-bottom: 20rpx;
 }
 
-.collection image{
-  
-  width:60rpx;
+.comment-item .comment-user {
+  display: flex;
+  width: 100%;
+}
+
+.comment-user .user-info {
+  display: flex;
   height: 60rpx;
+  margin-right: 30rpx;
 }
 
-.footer button{
-  margin-right: 80rpx;
-  width: 250rpx;
-  margin-top:20rpx;
-  height: 80rpx;
+.comment-user .user-info .avatarUrl {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 30rpx;
+}
+
+.comment-user .user-info .nickName, .label {
+  height: 60rpx;
+  line-height: 60rpx;
+}
+
+.comment-user .user-info .label {
+  padding-right: 30rpx;
+}
+
+.comment-user .pubTime {
+  flex: 1;
+  text-align: right;
+  height: 60rpx;
+  line-height: 60rpx;
+  margin-right: 20rpx;
+}
+
+.comment-item textarea {
+  margin-left: 60rpx;
+  height: auto;
+  border-bottom: solid 1rpx rgba(0, 0, 0, 0.1);
+}
+
+.footer .comment {
+  flex: 1;
+  height: 120rpx;
+  line-height: 40rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+}
+
+.footer button {
+  width: 150rpx;
+  height: 70rpx;
+  margin-right: 20rpx;
   font-size: 30rpx;
-  background-color:#1ed8f7;
 }
 
-
-
+.footer .send {
+  background-color: red;
+}

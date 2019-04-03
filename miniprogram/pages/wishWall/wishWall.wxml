@@ -9,7 +9,7 @@
   </scroll-view>
   <view class="list">
     <block wx:for="{{goodsList}}" wx:key="*this">
-      <view class="list-item"  bindtap='toDetail' data-id="{{item.id}}">
+      <view class="list-item" bindtap='toDetail' data-id="{{item.id}}">
         <view class="userinfo">
           <image src="../../images/index.png" class="avatarUrl" />
           <view class="nickname">{{item.nickname}}</view>
@@ -26,4 +26,12 @@
       </view>
     </block>
   </view>
+      <view class="empty"  wx:if="{{empty}}" >
+  <image src="../../images/empty.png"  />
+  <text>空空如也</text>
+  </view>
+</view>
+<view class="weui-loadmore" hidden="{{isHideLoadMore}}">
+  <view class="weui-loading"></view>
+  <view class="weui-loadmore__tips">正在加载</view>
 </view>

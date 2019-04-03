@@ -1,0 +1,92 @@
+/* miniprogram/pages/editMessage/editMessage.wxss */
+
+.container {
+  font-size: 30rpx;
+  margin-left: 30rpx;
+  margin-right:30rpx;
+}
+
+form{
+  width: 100%;
+  display: flex;
+  flex-direction: column
+}
+
+.header {
+  position: relative;
+  display: flex;
+  width: 100%;
+  margin: 20rpx 0 20rpx 0;
+  border-bottom: solid 1rpx rgb(0, 0, 0, 0.1);
+}
+
+.header .avatarUrl {
+  height: 250rpx;
+  width: 250rpx;
+}
+
+.header .upload {
+  position: absolute;
+  height: 40rpx;
+  border: 1rpx solid black;
+  background-color: #555;
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+  top: 210rpx;
+  width: 250rpx;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.header text {
+  color: #fff;
+  position: absolute;
+  display: block;
+  top: 210rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  text-align: center;
+  width: 250rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+.list{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top:30rpx;
+  box-sizing: border-box;
+  border-top:2rpx solid rgb(0, 0, 0, 0.1);
+}
+
+.title{
+  font-size: 40rpx;
+  font-weight: bold;
+}
+
+.identity{
+  color: #aaa;
+}
+.list-item{
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+
+.list-item input{
+  width: 250rpx;
+  text-align: right;
+}
+
+.submit{
+  margin-top:80rpx;
+  width: 80%;
+  margin-left:10%;
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 35rpx;
+  background-color: #1ed8f7;
+}

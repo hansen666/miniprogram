@@ -1,1 +1,76 @@
 /* miniprogram/pages/myHome/myHome.wxss */
+@import "../../style/guide.wxss";
+
+.container{
+  font-size: 30rpx;
+}
+
+.userInfo{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.userInfo .avatarUrl{
+  margin-top:40rpx;
+  width: 130rpx;
+  height:130rpx;
+  border-radius: 65rpx;
+}
+
+.userInfo .nickname{
+  height: 40rpx;
+  line-height: 40rpx;
+  margin-top:30rpx;
+}
+
+.id-info{
+  padding-top:20rpx;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: #fff;
+}
+
+.id-info .ID,.edit{
+  display: flex;
+  flex-direction: column;
+}
+
+.id-info image{
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.id-info text{
+  margin-top:5rpx;
+  height: 35rpx;
+  line-height: 35rpx;
+
+}
+
+.list-item{
+  align-items: center
+}
+.list-item image {
+  width: 40rpx;
+  height: 40rpx;
+
+}
+
+.list-item text{
+  margin-left: 20rpx;
+  flex: 1;
+}
+
+.contact{
+  text-align: left;
+  background-color: #fff;
+}
+
+.contact::after{
+  border: none;
+}

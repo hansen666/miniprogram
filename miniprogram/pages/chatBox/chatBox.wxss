@@ -1,0 +1,137 @@
+/* miniprogram/pages/chatBox/chatBox.wxss */
+
+.container {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 200rpx);
+  margin-bottom: 200rpx;
+}
+
+.time{
+  font-size: 25rpx;
+  color: #666;
+  width: 100%;
+  text-align: center;
+  margin-top: 30rpx;
+}
+
+.message {
+  display: flex;
+  width: 100%;
+  height: auto;
+  margin-top: 25rpx;
+}
+
+.message .avatar-url {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  margin: 0 20rpx 0 20rpx;
+}
+
+.message .plainText {
+  padding: 20rpx;
+  font-size: 35rpx;
+  line-height: 40rpx;
+  height: auto;
+  width: auto;
+  min-height: 40rpx;
+  min-width: 40rpx;
+  max-width: 400rpx;
+  border: solid 1rpx rgba(0, 0, 0, 0.1);
+}
+
+
+.message .image-item{
+width: 300rpx;
+height: 300rpx
+
+}
+
+.message .audio-item{
+  display: flex;
+  width: 300rpx;
+  align-items: center;
+  height: 80rpx;
+  border: solid 1rpx rgba(0, 0, 0, 0.1)
+}
+
+.message .my-audio-item{
+  justify-content: flex-end;
+}
+
+
+.message .my-audio-item image{
+  margin-right: 20rpx;
+  height: 30rpx;
+  width: 30rpx;
+}
+
+.message .other-audio-item image{
+  margin-left: 20rpx;
+  height: 30rpx;
+  width: 30rpx;
+}
+
+
+
+.other {
+  justify-content: flex-start;
+}
+
+.mine {
+  justify-content: flex-end;
+}
+
+.bottom {
+  position: fixed;
+  align-items: flex-end;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  height: auto;
+  width: 100%;
+  background-color: #f9f9f9;
+  border-top: solid 1rpx rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.bottom .input-msg {
+  flex: 1;
+  font-size: 35rpx;
+  line-height: 40rpx;
+  min-height: 40rpx;
+  max-height: 160rpx;
+  padding: 20rpx;
+  margin: 10rpx 0;
+  border: solid 1rpx rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.bottom  .send {
+  font-size: 35rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  margin: 10rpx;
+  width: 90rpx;
+  background-color: #1ed8f7;
+}
+
+.bottom image {
+  margin: 10rpx 15rpx;
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.bottom .inputTip {
+  flex: 1;
+  font-size: 35rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  padding: 20rpx;
+  margin: 10rpx 0;
+  text-align: center;
+  border: solid 1rpx rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}

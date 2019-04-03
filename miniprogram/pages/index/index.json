@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "modal": "../../component/modal/modal"
-  }
+    "warnModal": "../../component/warnModal/warnModal"
+  },
+  "enablePullDownRefresh": true
 }

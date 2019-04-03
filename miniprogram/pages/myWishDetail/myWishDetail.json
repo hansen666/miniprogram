@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "心愿详情",
+  "usingComponents": {
+    "commentModal": "../../component/commentModal/commentModal"
+  }
+}

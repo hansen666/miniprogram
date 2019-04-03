@@ -1,5 +1,19 @@
 <!--miniprogram/pages/message/message.wxml-->
 <view class="container">
-
+  <block wx:for="{{messageList}}" wx:key="{{userId}}">
+    <view class="message-item" bindtap='toDetail' data-userid="{{item.userId}}" data-nickname="{{item.nickname}}" data-avatarurl="{{item.avatarUrl}}">
+      <image class="avatar-url" src="{{item.avatarUrl}}" />
+      <view class="info">
+        <view class="info-header">
+          <text class="nickname">{{item.nickname}}
+        </text>
+          <text class="pubTime">{{item.pubTime}}</text>
+        </view>
+        <view class="info-content">
+          <text class="content">{{item.content}}</text>
+          <image class="red-point" src="../../images/red-point.png/" wx:if="{{item.read==0}}" />
+        </view>
+      </view>
+    </view>
+  </block>
 </view>
-

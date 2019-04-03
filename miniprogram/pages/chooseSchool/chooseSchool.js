@@ -8,9 +8,16 @@ Page({
   },
 
   onLoad: function(options) {
+
+    if (options.modifySchool) {
+      this.setData({
+        modifySchool:options.modifySchool
+      })
+    }
+    //获取用户地理位置权限
     wx.getLocation({
       type: 'wgs84',
-      success: function (res) {
+      success: function(res) {
         console.log(res)
       }
     })
@@ -19,7 +26,6 @@ Page({
     wx.request({
       url: 'http://localhost:8080/login/selectSchool',
       success(res) {
-        console.log(res.data.data)
         var schoolArray = res.data.data
         that.setData({
           schoolArray: schoolArray
@@ -70,67 +76,74 @@ Page({
 
   setSchool: function() {
 
-    if (this.data.schoolName && this.data.schoolArray.includes(this.data.schoolName)) {
-      const schoolName = this.data.schoolName
-      wx.getUserInfo({
-        success: res => {
-          const nickname = res.userInfo.nickName
-          const avatarUrl = res.userInfo.avatarUrl
-          //获取登录态token
-          wx.login({
-            success(e) {
-              wx.request({
-                url: 'http://localhost:8080/login/getToken',
-                data: {
-                  code: e.code
-                },
-                success(res) {
-  
-                  const token = res.data.data.token
-
-                  wx.request({
-                    url: 'http://localhost:8080/user/addUser',
-                    method: 'POST',
-                    data: {
-                      schoolName,
-                      nickname,
-                      avatarUrl
-                    },
-                    header: {
-                      token
-                    },
-
-                    success(res) {
-                      wx.setStorage({
-                        key: 'token',
-                        data: token
-                      })
-
-                      wx.switchTab({
-                        url: '/pages/index/index',
-                      })
-                    }
-                  })
-                }
-              })
-
-
-            }
+      if (this.data.schoolName && this.data.schoolArray.includes(this.data.schoolName)) {
+        if (this.data.modifySchool) {
+          wx.redirectTo({
+            url: '/pages/editMessage/editMessage?schoolName=' + this.data.schoolName,
           })
+        } else {
+        const schoolName = this.data.schoolName
+        wx.getUserInfo({
+          success: res => {
+            const nickname = res.userInfo.nickName
+            const avatarUrl = res.userInfo.avatarUrl
+            //获取登录态token
+            wx.login({
+              success(e) {
+                wx.request({
+                  url: 'http://localhost:8080/login/getToken',
+                  data: {
+                    code: e.code
+                  },
+                  success(res) {
+                    const token = res.data.data.token
+                    //新增用户
+                    wx.request({
+                      url: 'http://localhost:8080/user/addUser',
+                      method: 'POST',
+                      data: {
+                        schoolName,
+                        nickname,
+                        avatarUrl
+                      },
+                      header: {
+                        token
+                      },
+
+                      success(res) {
+                        wx.setStorage({
+                          key: 'token',
+                          data: token
+                        })
+
+                        wx.switchTab({
+                          url: '/pages/index/index',
+                        })
+                      }
+                    })
+                  }
+                })
+
+
+              }
+            })
+          }
+          
+        })
         }
-      })
-    } else {
-      wx.showModal({
-        title: '警告',
-        content: '该学校不存在，请重新选择',
-        showCancel: false,
-        confirmText: '返回'
-        // success: function(res) {
-        //   if (res.confirm) {
-        //     console.log('用户点击了“返回授权”')
-        //   }
-        // }
-      })
-    }
+      } else {
+        wx.showModal({
+          title: '警告',
+          content: '该学校不存在，请重新选择',
+          showCancel: false,
+          confirmText: '返回'
+          // success: function(res) {
+          //   if (res.confirm) {
+          //     console.log('用户点击了“返回授权”')
+          //   }
+          // }
+        })
+      }
+
   }
 })

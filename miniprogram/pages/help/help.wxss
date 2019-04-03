@@ -1,0 +1,24 @@
+/* miniprogram/pages/help/help.wxss */
+
+.container {
+  padding: 50rpx 50rpx 0 50rpx;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.list-item {
+  margin-top: 30rpx;
+}
+.list-item image{
+ 
+  width: 600rpx;
+  height:1200rpx;
+}
+.list-item .step {
+  font-weight: bold;
+  font-size: 32rpx;
+  padding-right: 20rpx;
+}

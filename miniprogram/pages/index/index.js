@@ -1,66 +1,62 @@
 //index.js
 
-var QQMapWX = require('../../utils/qqmap-wx-jssdk.js');
-
-// 实例化API核心类
-var qqmapsdk = new QQMapWX({
-  key: 'RP7BZ-LE2HW-OEIRO-OZLUZ-OT662-K5BG7' // 必填
-});
-
+import commonJS from "../../utils/common.js"
 const app = getApp()
 
 Page({
   data: {
-    showLabel: false,
-    showModal: false,
-    labelList: app.globalData.labelList,
-    userInfo: {},
-    keyword: "",
-    currentPage: 0,
-    goodsList: [],
-    labelid: 0,
-    isHideLoadMore: true,
+    showLabel: false, //是否显示分类下拉框
+    showModal: false, //是否显示获取地理位置弹出框
+    labelList: app.globalData.labelList, //物品分类列表
+    keyword: "", //关键字
+    currentPage: 0, //当前页
+    goodsList: [], //物品列表
+    labelid: 0, //分类标签id
+    currentTime: (new Date()).toString(),
+    isHideLoadMore: true, //是否隐藏加载更多 
+    empty: false
   },
 
+  /**
+   * 页面加载
+   * 1,检查用户授权基本信息
+   * 2,检查session是否过期,过期则重新获取token
+   * 3,获取物品列表
+   */
   onLoad: function() {
+    console.log(new Date())
     var that = this
-    // 获取用户信息
+    // 检查用户授权基本信息
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
-          // 用户已经授权，
-          wx.getUserInfo({
-            success: res => {
-              that.setData({
-                userInfo: res.userInfo
-              })
-              app.globalData.userInfo = res.userInfo
-            }
-          })
-
+          // 查看session是否过期
           wx.checkSession({
             success() {
+              //获取物品列表
               that.getGoodsList(0, 0, null)
             },
             fail() {
-              // session_key 已经失效，需要重新执行登录流程
               wx.login({
                 success(res) {
                   if (res.code) {
                     wx.request({
                       url: 'http://localhost:8080/login/getToken',
                       data: {
-                        code: e.code
+                        code: res.code
                       },
                       success(res) {
                         wx.setStorage({
                           key: 'token',
                           data: res.data.data.token
                         })
+                        //检查是否为新用户
                         if (res.data.data.isNewUser) {
                           wx.redirectTo({
                             url: '/pages/chooseSchool/chooseSchool',
                           })
+                        } else {
+                          that.getGoodsList(0, 0, null)
                         }
                       }
                     })
@@ -68,11 +64,9 @@ Page({
                     console.log('登录失败！' + res.errMsg)
                   }
                 }
-
               })
             }
           })
-
         } else {
           wx.redirectTo({
             url: '/pages/login/login'
@@ -84,9 +78,9 @@ Page({
 
   /**
    * 页面显示
+   * 判断是否获得了用户地理位置授权
    */
   onShow() {
-    //判断是否获得了用户地理位置授权
     wx.getSetting({
       success: (res) => {
         if (!res.authSetting['scope.userLocation']) {
@@ -101,6 +95,30 @@ Page({
       }
     })
   },
+
+  /**
+   * 下拉刷新
+   */
+  onPullDownRefresh() {
+    this.setData({
+      goodsList: [],
+      currentPage: 0,
+      currentTime: (new Date()).toString()
+    })
+    this.getGoodsList(0, this.data.labelid, null)
+  },
+
+  /**
+   * 上拉触底加载
+   */
+  onReachBottom() {
+    this.setData({
+      isHideLoadMore: false
+    })
+    this.getGoodsList(this.data.currentPage, this.data.labelid, this.data.keyword)
+
+  },
+
   /**
    * 输入关键字
    */
@@ -143,30 +161,23 @@ Page({
     this.getGoodsList(0, e.target.dataset.id, this.data.keyword)
   },
 
-/**
- * 查看物品详情
- */
-  toDetail(e){
-    wx.navigateTo({
-      url: '/pages/goodsDetail/goodsDetail?id='+e.currentTarget.dataset.id
-    })
-  },
   /**
-   * 下拉加载
+   * 查看物品详情
    */
-  onReachBottom() {
-    this.setData({
-      isHideLoadMore: false
-    })
-    this.getGoodsList(this.data.currentPage, this.data.labelid, this.data.keyword)
-    this.setData({
-      isHideLoadMore: true
+  toDetail(e) {
+    wx.navigateTo({
+      url: '/pages/goodsDetail/goodsDetail?id=' + e.currentTarget.dataset.id
     })
   },
 
+  /**
+   * 获取物品列表
+   * currentPage:当前页
+   * label:分类标签id
+   * keyword:关键字
+   */
   getGoodsList(currentPage, label, keyword) {
     var that = this
-    //获取物品列表
     wx.getStorage({
       key: 'token',
       success: function(res) {
@@ -180,54 +191,54 @@ Page({
           data: {
             currentPage,
             label,
-            keyword
+            keyword,
+            currentTime: that.data.currentTime
           },
           success(res) {
             let goodsList = res.data.data
-            var promise = []
-            for (let index in goodsList) {
-              //描述超过35个字，后面的用省略号表示
-              if (goodsList[index].description.length > 35) {
-                goodsList[index].description = goodsList[index].description.substring(0, 35) + "..."
-              }
-              //计算用户到各个点的距离
-              promise.push(new Promise((reslove, reject) => {
-
-                qqmapsdk.calculateDistance({
-                  to: [{
-                    latitude: goodsList[index].latitude,
-                    longitude: goodsList[index].longitude
-                  }],
-                  success: function(res) {
-                    goodsList[index].distance = res.result.elements[0].distance
-                    if (goodsList[index].distance < 1000) {
-                      goodsList[index].distance += "m"
-                    } else {
-                      goodsList[index].distance = (goodsList[index].distance / 1000).toFixed(1) + "km"
-                    }
-                    reslove(goodsList[index])
-                  },
-                  fail() {
-                    goodsList[index].distance = "未知"
-                    reslove(goodsList[index])
+            wx.getLocation({
+              success: function(res) {
+                for (let index in goodsList) {
+                  //描述超过35个字，后面的用省略号表示
+                  if (goodsList[index].description.length > app.globalData.fontMaxLength) {
+                    goodsList[index].description = goodsList[index].description.substring(0, app.globalData.fontMaxLength) + "..."
                   }
-                })
-              }))
-              //标签id转化为对应的对象
-              for (let i in app.globalData.labelList) {
-                if (goodsList[index].label == app.globalData.labelList[i].id) {
-                  goodsList[index].label = app.globalData.labelList[i]
+                  //计算用户到各个点的距离
+                  goodsList[index].distance = commonJS.getDistance(res.latitude, res.longitude, goodsList[index].latitude, goodsList[index].longitude)
+                  if (goodsList[index].distance < 1000) {
+                    goodsList[index].distance = Math.floor(goodsList[index].distance) + "m"
+                  } else {
+                    goodsList[index].distance = (goodsList[index].distance / 1000).toFixed(1) + "km"
+                  }
+                  //标签id转化为对应的对象
+                  for (let i in app.globalData.labelList) {
+                    if (goodsList[index].label == app.globalData.labelList[i].id) {
+                      goodsList[index].label = app.globalData.labelList[i]
+                    }
+                  }
                 }
+                //将查出来的结果，加在最后
+                that.setData({
+                  goodsList: that.data.goodsList.concat(goodsList),
+                  currentPage: that.data.currentPage + 1
+                })
+                that.setData({
+                  isHideLoadMore: true
+                })
+                if (that.data.goodsList.length == 0) {
+                  that.setData({
+                    empty: true
+                  })
+                } else {
+                  that.setData({
+                    empty: false
+                  })
+                }
+              },
+              fail: function(err) {
+                console.log("获取位置出错:")
+                goodsList[index].distance = "未知"
               }
-            }
-            //将查出来的结果，加在最后
-            Promise.all(promise).then(res => {
-              that.setData({
-                goodsList: that.data.goodsList.concat(res),
-                currentPage: that.data.currentPage + 1
-              })
-            }).catch(err => {
-              console.log(err)
             })
           }
         })
@@ -236,26 +247,5 @@ Page({
   },
 
 
-  // Rad: function (d) { //根据经纬度判断距离
-  //   return d * Math.PI / 180.0;
-  // },
-  // getDistance: function (lat1, lng1, lat2, lng2) {
-  //   // lat1用户的纬度
-  //   // lng1用户的经度
-  //   // lat2物品的纬度
-  //   // lng2物品的经度
-  //   lat1 = lat1 || 0;
-  //   lng1 = lng1 || 0;
-  //   lat2 = lat2 || 0;
-  //   lng2 = lng2 || 0;
 
-  //   var rad1 = lat1 * Math.PI / 180.0;
-  //   var rad2 = lat2 * Math.PI / 180.0;
-  //   var a = rad1 - rad2;
-  //   var b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
-
-  //   var r = 6378137;
-  //   return r * 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(rad1) * Math.cos(rad2) * Math.pow(Math.sin(b / 2), 2)))
-
-  // }
 })

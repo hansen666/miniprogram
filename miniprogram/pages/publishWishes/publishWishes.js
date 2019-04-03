@@ -1,68 +1,121 @@
 // miniprogram/pages/publishWishes/publishWishes.js
-var QQMapWX = require('../../utils/qqmap-wx-jssdk.js');
-
-// 实例化API核心类
-var qqmapsdk = new QQMapWX({
-  key: 'RP7BZ-LE2HW-OEIRO-OZLUZ-OT662-K5BG7' // 必填
-});
+const app = getApp()
 
 Page({
 
   data: {
-    imageCount: 4,
-    tempFilePaths: [],
-    title: '',
-    label: {},
-    description: '',
-    phone: '',
-    price: ''
+    imageCount: 4, //最多上传图片数
+    tempFilePaths: [], //临时图片文件数组
+    name: '', //标题
+    label: {}, //标签
+    description: '', //描述
+    phone: '', //手机号
+    price: '', //价格
+    submitType: "发布",
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     var that = this
     if (options.label) {
       wx.getStorage({
         key: 'publishGoodsData',
-        success: function (res) {
+        success: function(res) {
           that.setData({
-            title: res.data.title,
+            name: res.data.name,
             description: res.data.description,
             price: res.data.price,
             phone: res.data.phone,
-            tempFilePaths: res.data.tempFilePaths
+            tempFilePaths: res.data.tempFilePaths,
+            submitType: res.data.submitType
           })
         },
       })
       this.setData({
         label: JSON.parse(options.label)
       })
-      console.log(this.data)
     }
 
+    //从我的发布页过来
+    if (options.id) {
+      wx.getStorage({
+        key: 'token',
+        success: function(res) {
+          const token = res.data
+          wx.request({
+            url: 'http://localhost:8080/goods/showWishDetail',
+            header: {
+              token
+            },
+            data: {
+              id: options.id
+            },
+
+            success(res) {
+              var goodsDetail = res.data.data
+              console.log(goodsDetail)
+              app.globalData.labelList.forEach((label) => {
+                if (label.id == goodsDetail.label) {
+                  goodsDetail.label = label
+                }
+              })
+              that.setData({
+                name: goodsDetail.name,
+                description: goodsDetail.description,
+                price: goodsDetail.price,
+                phone: goodsDetail.phone,
+                //tempFilePaths: goodsDetail.tempFilePaths,
+                label: goodsDetail.label,
+                submitType: "保存"
+              })
+            }
+          })
+        },
+      })
+    }
   },
-  inputTitle(e) {
+
+  /**
+   * 设置标题
+   */
+  inputName(e) {
     this.setData({
-      title: e.detail.value
+      name: e.detail.value
     })
   },
+
+  /**
+   * 设置描述
+   */
   inputDescription(e) {
     this.setData({
       description: e.detail.value
     })
   },
+
+  /**
+   * 设置价格
+   */
   inputPrice(e) {
     this.setData({
       price: e.detail.value
     })
   },
+
+  /**
+   * 设置手机号
+   */
   inputPhone(e) {
     this.setData({
       phone: e.detail.value
     })
   },
+
+  /**
+   * 选择标签
+   */
   chooseLabel(e) {
     wx.setStorage({
       key: 'publishGoodsData',
@@ -72,10 +125,14 @@ Page({
       url: '/pages/label/label?fromPage=/pages/publishWishes/publishWishes',
     })
   },
+
+  /**
+   * 选择图片
+   */
   chooseImage() {
     if (this.data.imageCount == 0) {
       wx.showModal({
-        title: '警告',
+        name: '警告',
         content: '最多允许上传四张照片',
         showCancel: false,
         confirmText: '确定'
@@ -95,8 +152,24 @@ Page({
         })
       }
     })
-
   },
+
+  /**
+   * 点击查看大图 
+   */
+  imgView(e) {
+    var src = e.currentTarget.dataset.src
+    var imgList = e.currentTarget.dataset.list
+    console.log(src)
+    wx.previewImage({
+      current: src,
+      urls: imgList,
+    })
+  },
+
+  /**
+   * 删除图片
+   */
   deleteImage(e) {
     var tempFilePaths = this.data.tempFilePaths
     tempFilePaths.splice(e.currentTarget.dataset.index, 1)
@@ -104,12 +177,15 @@ Page({
       tempFilePaths: tempFilePaths,
       imageCount: this.data.imageCount + 1
     })
-
   },
+
+  /**
+   * 检查输入项
+   */
   checkInput(name, warnMessage) {
     if (!name) {
       wx.showModal({
-        title: '警告',
+        name: '警告',
         content: warnMessage,
         showCancel: false,
         confirmText: '确定'
@@ -117,8 +193,11 @@ Page({
       return false;
     }
     return true;
-
   },
+
+  /**
+   * 发布
+   */
   publish(e) {
     let that = this
     wx.getLocation({
@@ -126,7 +205,7 @@ Page({
       success(res) {
         const latitude = res.latitude
         const longitude = res.longitude
-        if (!that.checkInput(e.detail.value.title, '标题不能为空')) {
+        if (!that.checkInput(e.detail.value.name, '标题不能为空')) {
           return
         }
         if (!that.checkInput(e.detail.value.label, '请选择物品标签')) {
@@ -135,97 +214,116 @@ Page({
         if (!that.checkInput(e.detail.value.description, '描述不能为空')) {
           return
         }
-        // if (!that.checkInput(e.detail.value.price, '请输入价格')) {
-        //   return
-        // }
         if (!that.checkInput(e.detail.value.phone, "手机号不能为空")) {
           return
         }
-        // if (!that.checkInput(that.data.tempFilePaths.length > 0, '请选择物品的图片')) {
-        //   return
-        // }
+
         const arr = []
         let id = 0;
-        for (let path of that.data.tempFilePaths) {
-          arr.push(that.uploadImage(path, id))
-          id++
-        }
-        wx.showLoading({
-          title: '正在发布.....',
-          mask: true
-        })
+        wx.getStorage({
+          key: 'token',
+          success: function(res) {
+            const token = res.data
+            for (let path of that.data.tempFilePaths) {
+              arr.push(that.uploadImage(token, path, id))
+              id++
+            }
+            wx.showLoading({
+              name: '正在发布.....',
+              mask: true
+            })
 
-        // 开始并行上传图片
-        Promise.all(arr).then(res => {
-          return res.sort(that.compare("id")).map(item => item.fileName)
-        }).then(urls => {
-          let picUrl = ""
-          for (let url of urls) {
-            picUrl += url + ","
-          }
-          picUrl = picUrl.substring(0, picUrl.length - 1)
-          wx.getStorage({
-            key: 'token',
-            success: function (res) {
-          wx.request({
-            url: 'http://localhost:8080/goods/want',
-            method: "POST",
-            header: {
-             "token":res.data
-            },
-            data: {
-              "goodsName": e.detail.value.title,
-              "label": that.data.label.id,
-              picUrl,
-              "description": e.detail.value.description,
-              "price": Number(e.detail.value.price).toFixed(2),
-              "phone": e.detail.value.phone,
-              latitude,
-              longitude
-            },
-            success(res) {
-              console.log(res)
-            }
-          })
-            }
-          })
-        }).then(() => {
-          wx.hideLoading()
-          wx.showModal({
-            title: '提示',
-            content: "发布成功",
-            showCancel: false,
-            success(res) {
-              if (res.confirm) {
-                wx.switchTab({
-                  url: '/pages/publish/publish',
-                })
+            // 开始并行上传图片
+            Promise.all(arr).then(res => {
+              return res.sort(that.compare("id")).map(item => item.fileName)
+            }).then(urls => {
+              let picUrl = ""
+              for (let url of urls) {
+                picUrl += url + ","
               }
-            }
-          })
-        }).catch(err => {
-          wx.hideLoading()
-          wx.showModal({
-            title: '警告',
-            content: err,
-            showCancel: false,
-            confirmText: '确定'
-          })
-          console.log(">>>> upload images error:", err)
+              picUrl = picUrl.substring(0, picUrl.length - 1)
+              var urlString = ""
+              if (that.data.submitType == "发布") {
+                urlString = "http://localhost:8080/goods/want"
+              } else if (that.data.submitType == "保存") {
+                urlString = "http://localhost:8080/goods/modifyMyWanted"
+              }
+              wx.request({
+                url: urlString,
+                method: "POST",
+                header: {
+                  token
+                },
+                data: {
+                  "goodsName": e.detail.value.name,
+                  "label": that.data.label.id,
+                  picUrl,
+                  "description": e.detail.value.description,
+                  "price": Number(e.detail.value.price).toFixed(2),
+                  "phone": e.detail.value.phone,
+                  latitude,
+                  longitude
+                },
+                success(res) {
+                  console.log(res)
+                  wx.hideLoading()
+                  wx.showModal({
+                    name: '提示',
+                    content: "发布成功",
+                    showCancel: false,
+                    success(res) {
+                      if (res.confirm) {
+                        if (that.data.submitType == "发布") {
+                          wx.switchTab({
+                            url: '/pages/publish/publish',
+                          })
+                        } else {
+                          wx.redirectTo({
+                            url: '/pages/myPublish/myPublish',
+                          })
+                        }
+                      }
+                    }
+                  })
+                }
+              })
+            }).catch(err => {
+              wx.hideLoading()
+              wx.showModal({
+                name: '警告',
+                content: err,
+                showCancel: false,
+                confirmText: '确定'
+              })
+              console.log(">>>> upload images error:", err)
+            })
+          }
         })
-
+      }, fail(err) {
+        console.log("获取地理位置失败")
+        wx.showModal({
+          title: '警告',
+          content: '我们无法获取到您的实时位置，请确认已打开GPS后再进行发布',
+        })
       }
     })
   },
-  uploadImage(filePath, id) {
+
+  /**
+   * 异步上传图片
+   */
+  uploadImage(token, filePath, id) {
     return new Promise((resolve, reject) => {
       wx.uploadFile({
-        url: "http://localhost:8080/goods/imageUploads",
+        url: "http://localhost:8080/goods/imageUpload",
         filePath: filePath,
         name: "file",
+        header: {
+          token
+        },
         formData: {
           id: id,
-          filePath:"wishes"
+          filePath: "want"
         },
         success(res) {
           if (JSON.parse(res.data).code == -1) {
@@ -234,13 +332,14 @@ Page({
           resolve(JSON.parse(res.data).data)
         },
         fail(res) {
-          console.log("fail")
+          console.log("fail", res)
         }
       })
     })
+
   },
   compare(property) {
-    return function (obj1, obj2) {
+    return function(obj1, obj2) {
       var value1 = obj1[property];
       var value2 = obj2[property];
       return value1 - value2; // 升序

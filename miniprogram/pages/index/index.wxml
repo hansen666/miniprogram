@@ -22,23 +22,27 @@
           <view class="title">{{item.name}}</view>
           <view class="description">{{item.description}}</view>
           <view class="footer">
-            <view class="price"><image src="../../images/rmb.png"></image>{{item.price}}</view>
+            <view class="price">
+              <image src="../../images/rmb.png"></image>{{item.price}}</view>
             <view class="label">#{{item.label.name}}</view>
             <view class="time">{{item.pubTime}}</view>
           </view>
         </view>
         <view class="distance-item">
           <image class="location" src="../../images/location.png" />
-            <view class="distance">{{item.distance}}</view>
+          <view class="distance">{{item.distance}}</view>
         </view>
       </view>
-      
+
     </block>
   </view>
- <view class="weui-loadmore" hidden="{{isHideLoadMore}}">
+  <view class="empty" wx:if="{{empty}}">
+    <image src="../../images/empty.png" />
+    <text>空空如也</text>
+  </view>
+  <view class="weui-loadmore" hidden="{{isHideLoadMore}}">
     <view class="weui-loading"></view>
     <view class="weui-loadmore__tips">正在加载</view>
-  </view></view>
-<modal wx:if="{{showModal}}"></modal>
-
-
+  </view>
+</view>
+<warnModal wx:if="{{showModal}}"></warnModal>

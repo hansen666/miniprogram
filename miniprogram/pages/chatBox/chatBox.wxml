@@ -1,0 +1,34 @@
+<!--miniprogram/pages/chatBox/chatBox.wxml-->
+<view class="container">
+  <block wx:for="{{messageList}}" wx:key="*this">
+    <text class="time">{{item.time}}</text>
+    <block wx:for="{{item.messageSegment}}" wx:for-item="message" wx:key="*this">
+      <view wx:if="{{message.from==1}}" class="other message">
+        <image class="avatar-url" src="{{otherAvatarUrl}}" />
+        <text class="plainText" wx:if="{{message.type==0}}">{{message.content}}</text>
+        <image class="image-item" src="{{message.content}}" wx:if="{{message.type==1}}" data-imgUrl="{{message.content}}" mode="aspectFit" bindtap='imgView' data-src="{{message.content}}"></image>
+        <view class="other-audio-item audio-item" wx:if="{{message.type==2}}" data-audioPath="{{message.content}}" bindtap='playAudio'>
+          <image  src="../../images/otherVoice.png"></image>
+        </view>
+      </view>
+      <view wx:else class="mine message">
+        <text class="plainText" wx:if="{{message.type==0}}">{{message.content}}</text>
+        <image class="image-item" src="{{message.content}}" wx:if="{{message.type==1}}" data-imgUrl="{{message.content}}" mode="aspectFit"
+        bindtap='imgView' data-src="{{message.content}}"></image>
+        <view class="my-audio-item audio-item" wx:if="{{message.type==2}}" data-audioPath="{{message.content}}" bindtap='playAudio'>
+          <image src="../../images/myVoice.png"></image>
+        </view>
+        <image class="avatar-url" src="{{myAvatarUrl}}" />
+      </view>
+    </block>
+  </block>
+
+  <view class="bottom">
+    <image src="{{sendVoice ? '../../images/keyboard.png' : '../../images/voice.png'}}" class="keyboard" bindtap='changeInputType' />
+    <input class="input-msg" auto-height bindinput='bindKeyInput' wx:if='{{!sendVoice}}' value="{{msg}}" show-confirm-bar='{{false}}' fixed='{{true}}' cursor-spacing='10' />
+    <text class="inputTip" wx:if="{{sendVoice}}" bindlongpress='handleRecordStart' bindtouchend='handleRecordStoped' bindtouchmove='handleTouchMove' style='background-color:{{voiceBackColor}}'>{{voiceTipText}}</text>
+    <image src="../../images/addImage.png" class="add-image" wx:if="{{!sendText}}" bindtap="chooseImage" />
+    <text class="send" bindtap="sendPlainText" wx:if="{{sendText}}">发送</text>
+  </view>
+
+</view>

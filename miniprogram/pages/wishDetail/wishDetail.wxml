@@ -5,11 +5,11 @@
     <text class="nickname">{{nickname}}</text>
     <text class="identifiedLabel">{{identifiedLabel}}</text>
   </view>
-  <view class="phones" wx:if="{{picUrl.length>0}}">
+  <view class="photos" wx:if="{{picUrl.length>0}}">
     <swiper indicator-dots="true" autoplay="true" interval="3000" duration="500" circular="true">
-      <block wx:for="{{picUrl}}">
+      <block wx:for="{{picUrl}}" wx:key="*this">
         <swiper-item>
-          <image src="{{item}}" class="slide-image" width="355" height="150" />
+          <image src="{{item}}" bindtap="imgView" data-src="{{item}}" data-list="{{picUrl}}" class="slide-image" width="355" height="150" />
         </swiper-item>
       </block>
     </swiper>
@@ -17,34 +17,55 @@
   <view class="detail">
     <view class="name-price">
       <text class="name">{{name}}</text>
-      <view class="price"  wx:if="{{price}}">
+      <view class="price" wx:if="{{price}}">
         <image src="../../images/rmb.png"></image>{{price}}</view>
 
     </view>
-<view class="description-browse">
-<textarea class="description" disabled='true'>{{description}}</textarea>
-<text class="browse-count">浏览{{browseCount}}次</text>
-</view>
-<view class="pubTime">
-{{pubTime}}
-</view>
-<view class="contact">
-<view class="real-name-item">
-<text class="label"> 联系人</text>
-<text class="real-name">{{realName}}</text>
-</view>
-<view class="phone-item">
-  <text class="label">联系电话</text>
-  <text class="phone">{{phone}}</text>
-</view>
-</view>
+    <view class="description-browse">
+      <textarea class="description" disabled='true'>{{description}}</textarea>
+      <text class="browse-count">浏览{{browseCount}}次</text>
+    </view>
+    <view class="pubTime">
+      {{pubTime}}
+    </view>
+    <view class="contact">
+      <view class="real-name-item">
+        <text class="label"> 联系人</text>
+        <text class="real-name">{{realName}}</text>
+      </view>
+      <view class="phone-item">
+        <text class="label">联系电话</text>
+        <text class="phone">{{phone}}</text>
+      </view>
+      <view class="warn" wx:if="{{identifiedType==0}}">为保障用户信息安全，请先进行<text class="toIdentity" bindtap='toIdentity' style="color:green">身份认证</text>，认证之后即可看到联系方式</view>
+    </view>
+  </view>
+  <view class="comment-list">
+    <text class="title">互动列表:</text>
+    <block wx:for="{{commentList}}" wx:key="*this">
+      <view class="comment-item">
+        <view class="comment-user">
+          <view class="user-info">
+            <image class="avatarUrl" src="{{item.senderUrl}}" />
+            <text class="nickName senderNickname">{{item.senderNickname}}</text>
+          </view>
+          <view class="user-info" wx:if="{{publisherID!=item.receiverID}}">
+            <text class="label">回复</text>
+            <image class="avatarUrl" src="{{item.receiverUrl}}" />
+            <text class="nickName senderNickname">{{item.receiverNickname}}</text>
+          </view>
+          <text class="pubTime">{{item.pubTime}}</text>
+        </view>
+        <textarea class="comment-content" disabled bindtap="replyComment" data-senderid="{{item.senderID}}" data-sendernickname="{{item.senderNickname}}">{{item.context}}</textarea>
+      </view>
+    </block>
   </view>
   <view class="footer">
-  <view class="collection">
-  <image src="../../images/collection.png" />
-  <!-- <image src="../../images/collection-chosed.png" /> -->
-  <text>收藏</text>
+    <input auto-height bindtap="showCommentModal" class="comment" placeholder='评论区留下idea吧' value="{{comment}}" />
+    <button class="send" bindtap="send">发送</button>
+    <button bindtap='toChatBox'>私戳它</button>
   </view>
-  <button bindtap=''>联系它</button>
-  </view>
+
+
 </view>
+<commentModal showModal="{{showCommentModal}}" comment="{{comment}}" placeholder="{{commentTip}}" bind:send="sendComment" bind:unSend="setComment"></commentModal>

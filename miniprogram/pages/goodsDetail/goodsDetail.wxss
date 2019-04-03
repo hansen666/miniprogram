@@ -1,6 +1,5 @@
 /* miniprogram/pages/goodsDetail/goodsDetail.wxss */
 .container{
-  height: 100vh;
   margin-bottom: 120rpx;
 }
 .header{
@@ -27,14 +26,17 @@
 }
 
 .header  .identifiedLabel{
-  width: 120rpx;
-  height: 120rpx;
-  line-height: 120rpx;
+  text-align: center;
+  border: 2rpx solid #1ed8f7;
+  width: 100rpx;
+  height: 50rpx;
+  line-height: 50rpx;
   margin-right: 40rpx;
+  margin-top:30rpx;
 
 }
 
-.phones{
+.photos{
   box-sizing: border-box;
   height:400rpx;
   width: 100%;
@@ -116,7 +118,7 @@ swiper-item image{
   text-align: right;
 }
 
-.pubTime{
+.detail .pubTime{
   text-align: right;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -131,11 +133,19 @@ swiper-item image{
 
 .real-name-item,.phone-item{
   font-size: 32rpx;
-  margin:30rpx 80rpx;
+  margin:30rpx 60rpx;
   height: 40rpx;
   line-height: 40rpx;
   display: flex;
   justify-content: space-between;
+
+}
+
+.warn{
+  display: block;
+  padding:20rpx;
+  color: #aaa;
+  background-color: #f9f9f9;
 
 }
 
@@ -147,9 +157,10 @@ swiper-item image{
   position: fixed;
   bottom: 0;
   left: 0;
-  height: 120rpx;
+  height: 100rpx;
   border-top:2rpx solid rgba(0, 0, 0, 0.1);
-  z-index: 100;
+  background-color: #fff;
+  z-index: 50;
 }
 
 .footer .collection{
@@ -158,20 +169,20 @@ swiper-item image{
   flex-direction: column;
   margin-left:80rpx;
   width: 200rpx;
-  height: 120rpx;
+  height: 100rpx;
 }
 
 .collection image{
   
-  width:60rpx;
-  height: 60rpx;
+  width:50rpx;
+  height: 50rpx;
 }
 
 .footer button{
   margin-right: 80rpx;
-  width: 250rpx;
-  margin-top:20rpx;
-  height: 80rpx;
+  width: 200rpx;
+  margin-top:15rpx;
+  height: 70rpx;
   font-size: 30rpx;
   background-color:#1ed8f7;
 }

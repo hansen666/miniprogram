@@ -1,0 +1,39 @@
+/* miniprogram/pages/identityConfirmSuccess/identifyConfirmSuccess.wxss */
+.box{
+  display: flex;
+  width: 100%
+}
+.content{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 40rpx;
+}
+
+.content .title{
+  font-weight: bold;
+  font-size: 45rpx;
+  margin-top:50rpx;
+}
+
+.content .school{
+  position: relative;
+  margin-top:120rpx;
+  width: 600rpx;
+  height: 600rpx;
+}
+
+.school image{
+  width: 100%;
+  height: 100%;
+}
+
+.school .schoolName{
+  position: absolute;
+  left: 320rpx;
+  top:100rpx;
+  font-size: 40rpx;
+}
+
+
+

@@ -16,14 +16,81 @@ Page({
      wx.getUserInfo({
        success(res){
          const userInfo=res.userInfo
-         const nickname = userInfo.nickname
+         const nickName = userInfo.nickName
          const avatarUrl = userInfo.avatarUrl
          that.setData({
-           nickname,
+           nickName,
            avatarUrl
          })
        }
      })
+  },
+
+/**
+ * 跳转到编辑页
+ */
+toEdit(){
+  wx.navigateTo({
+    url: '/pages/editMessage/editMessage',
+  })
+},
+
+/**
+ * 到我的发布详情
+ */
+  toMyPublish(){
+    wx.navigateTo({
+      url: '/pages/myPublish/myPublish',
+    })
+  },
+
+/**
+ * 到我的售出页
+ */
+  toMySold(){
+    wx.navigateTo({
+      url: '/pages/mySold/mySold',
+    })
+  },
+
+  /**
+   * 到我的收藏页
+   */
+  toMyCollection() {
+    wx.navigateTo({
+      url: '/pages/myCollection/myCollection',
+    })
+  },
+
+/**
+ * 到身份认证页
+ */
+  toIdentityConfirm(){
+    var that=this
+    wx.getStorage({
+      key: 'token',
+      success: function(res) {
+        const token=res.data
+        wx.request({
+          url: 'http://localhost:8080/user/identifiedType',
+          header:{
+            token
+          },success(res){
+            const identifiedType=res.data.identifiedType
+            if(identifiedType==0){
+              wx.navigateTo({
+                url: '/pages/identityConfirm/identityConfirm',
+              })
+            }else{
+              wx.navigateTo({
+                url: "/pages/identityConfirmSuccess/identifyConfirmSuccess"
+              })
+            }
+          }
+        })
+      },
+    })
+
   },
 
   /**

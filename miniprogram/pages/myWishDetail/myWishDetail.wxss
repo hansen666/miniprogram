@@ -1,0 +1,3 @@
+/* miniprogram/pages/myWishDetail/myWishDetail.wxss */
+
+@import "../wishDetail/wishDetail.wxss";

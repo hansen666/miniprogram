@@ -1,0 +1,42 @@
+<!--miniprogram/pages/mySold/mySold.wxml-->
+<view class="container">
+  <view class="edit" wx:if="{{goodsList.length != 0}}" >
+    <text bindtap="edit">{{editOrCancel}}</text>
+  </view>
+  <view class="list">
+    <block wx:for="{{goodsList}}" wx:key="*this">
+
+      <view class="list-item" bindtap='toDetail' bindlongpress="edit" data-id="{{item.id}}">
+        <image class="check-icon" bindtap='chooseItemID' data-index="{{index}}" data-id="{{item.id}}" src="{{chosedID[index]==item.id ? '../../images/check.png' : '../../images/uncheck.png' }}" wx:if="{{showCancel}}" />
+        <image src="../../images/index.png" class="pic-url" />
+        <view class="goods-detail">
+          <view class="title">{{item.name}}</view>
+          <view class="description">{{item.description}}</view>
+          <view class="footer">
+            <view class="price">
+              <image src="../../images/rmb.png"></image>{{item.price}}</view>
+            <view class="label">#{{item.label.name}}</view>
+            <view class="time">{{item.pubTime}}</view>
+          </view>
+        </view>
+
+      </view>
+
+    </block>
+  </view>
+    <view class="empty"  wx:if="{{empty}}" >
+  <image src="../../images/empty.png"  />
+  <text>亲，这儿暂时没有任何卖出记录哦</text>
+  </view>
+  <view class="bottom" wx:if="{{showCancel}}">
+    <view class="check-all">
+      <image class="delete-icon" src="{{chosedCount==goodsList.length?'../../images/check.png' :'../../images/uncheck.png' }}" bindtap='checkAll' />
+      <text>全选</text>
+    </view>
+    <view class="delete">
+      <text bindtap='delete'>删除</text>
+    </view>
+  </view>
+
+
+</view>

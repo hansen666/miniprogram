@@ -1,7 +1,11 @@
 {
   "pages": [
-    "pages/myHome/myHome",
+    "pages/message/message",
+    "pages/help/help",
     "pages/index/index",
+    "pages/identityConfirm/identityConfirm",
+    "pages/myWishDetail/myWishDetail",
+    "pages/myHome/myHome",
     "pages/wishWall/wishWall",
     "pages/publish/publish",
     "pages/label/label",
@@ -9,9 +13,14 @@
     "pages/publishWishes/publishWishes",
     "pages/publishGoods/publishGoods",
     "pages/login/login",
-    "pages/message/message",
     "pages/goodsDetail/goodsDetail",
-    "pages/wishDetail/wishDetail"
+    "pages/wishDetail/wishDetail",
+    "pages/editMessage/editMessage",
+    "pages/mySold/mySold",
+    "pages/myCollection/myCollection",
+    "pages/myPublish/myPublish",
+    "pages/identityConfirmSuccess/identifyConfirmSuccess",
+    "pages/chatBox/chatBox"
   ],
   "permission": {
     "scope.userLocation": {

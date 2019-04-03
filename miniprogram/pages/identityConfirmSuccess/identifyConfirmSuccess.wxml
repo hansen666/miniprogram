@@ -1,0 +1,10 @@
+<!--miniprogram/pages/identityConfirmSuccess/identifyConfirmSuccess.wxml-->
+<view class="box">
+  <view class="content">
+    <text class="title">认证成功</text>
+    <view class="school">
+      <image src="../../images/identityConfirm.png" />
+      <text class="schoolName">{{schoolName}}</text>
+    </view>
+  </view>
+</view>

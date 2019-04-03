@@ -5,14 +5,11 @@
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+  font-size:30rpx;
 } 
 
-/* .line {
-  margin: 0 auto;
-  height: 2rpx;
-  width: 100%;
-  background-color: #d8d8d8;
-} */
+
+
 
 
 

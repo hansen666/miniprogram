@@ -1,0 +1,8 @@
+<!--component/commentModal.wxml-->
+  <view class="mask" wx:if="{{showModal}}">
+  <view class="modal-content">
+<textarea placeholder='{{placeholder}}' auto-height focus bindblur='hideModal'  bindinput='bindCommentMessage' value="{{comment}}"></textarea>
+
+<button bindtap="send">发送</button>
+</view>
+</view>

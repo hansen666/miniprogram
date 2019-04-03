@@ -1,0 +1,59 @@
+<!--miniprogram/pages/myWishDetail/myWishDetail.wxml-->
+<!--miniprogram/pages/wishDetail/wishDetail.wxml-->
+<view class="container">
+  <view class="header">
+    <image src="{{avatarUrl}}" />
+    <text class="nickname">{{nickname}}</text>
+    <text class="identifiedLabel" bindtap='toEdit'>编辑</text>
+  </view>
+  <view class="photos" wx:if="{{picUrl.length>0}}">
+    <swiper indicator-dots="true" autoplay="true" interval="3000" duration="500" circular="true">
+      <block wx:for="{{picUrl}}" wx:key="*this">
+        <swiper-item>
+          <image src="{{item}}" bindtap="imgView" data-src="{{item}}" data-list="{{picUrl}}" class="slide-image" width="355" height="150" />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <view class="detail">
+    <view class="name-price">
+      <text class="name">{{name}}</text>
+      <view class="price" wx:if="{{price}}">
+        <image src="../../images/rmb.png"></image>{{price}}</view>
+
+    </view>
+    <view class="description-browse">
+      <textarea class="description" disabled='true'>{{description}}</textarea>
+      <text class="browse-count">浏览{{browseCount}}次</text>
+    </view>
+    <view class="pubTime">
+      {{pubTime}}
+    </view>
+
+  </view>
+  <view class="comment-list">
+    <text class="title">互动列表:</text>
+    <block wx:for="{{commentList}}" wx:key="*this">
+      <view class="comment-item">
+        <view class="comment-user">
+          <view class="user-info">
+            <image class="avatarUrl" src="{{item.senderUrl}}" />
+            <text class="nickName senderNickname">{{item.senderNickname}}</text>
+          </view>
+          <view class="user-info" wx:if="{{publisherID!=item.receiverID}}">
+            <text class="label">回复</text>
+            <image class="avatarUrl" src="{{item.receiverUrl}}" />
+            <text class="nickName senderNickname">{{item.receiverNickname}}</text>
+          </view>
+          <text class="pubTime">{{item.pubTime}}</text>
+        </view>
+        <textarea class="comment-content" disabled bindtap="replyComment" data-senderid="{{item.senderID}}" data-sendernickname="{{item.senderNickname}}">{{item.context}}</textarea>
+      </view>
+    </block>
+  </view>
+  <view class="footer">
+    <input auto-height bindtap="showCommentModal" class="comment" placeholder='评论区留下idea吧' value="{{comment}}" />
+    <button class="send" bindtap="send">发送</button>
+  </view>
+</view>
+<commentModal showModal="{{showCommentModal}}" comment="{{comment}}" bind:send="sendComment" bind:unSend="setComment"></commentModal>
