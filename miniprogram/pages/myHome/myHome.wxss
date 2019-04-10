@@ -1,5 +1,5 @@
 /* miniprogram/pages/myHome/myHome.wxss */
-@import "../../style/guide.wxss";
+@import "../../style/list.wxss";
 
 .container{
   font-size: 30rpx;
@@ -53,7 +53,7 @@
 }
 
 .list-item{
-  align-items: center
+  align-items: center;
 }
 .list-item image {
   width: 40rpx;

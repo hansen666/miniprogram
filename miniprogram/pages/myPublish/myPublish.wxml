@@ -9,10 +9,10 @@
   </view>
   <view class="list">
     <block wx:for="{{goodsList}}" wx:key="*this">
-      <view class="list-item" bindtap='toDetail' bindlongpress="edit" data-id="{{item.id}}">
+      <view class="list-item goods-info" bindtap='toDetail' bindlongpress="edit" data-id="{{item.id}}">
         <image src="../../images/checking.png" class="status" wx:if="{{item.status==0}}">审核中</image>
         <image class="check-icon" catchtap='chooseItemID' data-index="{{index}}" data-id="{{item.id}}" src="{{chosedID[index]==item.id ? '../../images/check.png' : '../../images/uncheck.png' }}" wx:if="{{showCancel}}" />
-        <image src="../../images/index.png" class="pic-url" />
+        <image src="{{remote_path+item.picUrl}}" class="pic-url"  wx:if="{{pageType==0}}"/>
         <view class="goods-detail">
           <view class="title">{{item.name}}</view>
           <view class="description">{{item.description}}</view>

@@ -6,6 +6,8 @@
   align-items: center;
   box-sizing: border-box;
   font-size:30rpx;
+  background-color: #f6f6f6;
+  min-height: 100vh;
 } 
 
 

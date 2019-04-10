@@ -3,7 +3,7 @@
   <view class="content">
     <text class="title">认证成功</text>
     <view class="school">
-      <image src="../../images/identityConfirm.png" />
+      <image src="../../images/identityConfirm.png" mode="widthFix"/>
       <text class="schoolName">{{schoolName}}</text>
     </view>
   </view>

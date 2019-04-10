@@ -1,149 +1,184 @@
 // miniprogram/pages/wishDetail/wishDetail.js
-Page({
+const app = getApp()
+var goodsID //心愿id
+var publisherID //发布人ID
 
-  /**
-   * 页面的初始数据
-   */
+Page({
   data: {
-    commentList: [],
+    avatarUrl: '', //头像
+    nickname: '', //昵称
+    identifiedType: 0, //认证类型：0-未认证 ，1-学生
+    picUrl: [], //物品图片列表
+    name: '', //物品名称
+    description: '', //描述
+    price: 0, //价格
+    browseCount: 0, //浏览次数
+    pubTime: '', //发布时间
+    phone: '', //联系方式
+    realName: '', //用户姓名
+    publisherID: '', //发布人ID
+    commentList: [], //评论列表{senderID,receiverID,senderUrl,receiverUrl,senderNickname,receiverNickname,pubTime,content}
     commentTip: "评论区留下idea吧",
-    // commentList: [{
-    //   senderID:1,
-    //   receiverID:2,
-    //   senderUrl: 
-    //   receiverUrl: 
-    //   renderNickname:"hansen",
-    //   receiverNickname:"萌",
-    //   pubTime: "12分钟前",
-    //   content: "早睡早起，养成每日好习惯i暗示hi是否哦是覅是的覅时候覅和士大夫好的覅和i但是十分士大夫死的好覅是的护肤斯蒂芬hi"
-    // }],
-    showCommentModal: false
+    showContact: true, //是否显示私戳它
+    height: 0, //评论框距离底部的位置
+    focus: false, //是否获得焦点
+    remote_path: `${app.globalData.REMOTE_PATH}/want/`
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   * 页面加载
    */
   onLoad: function(options) {
+    goodsID = Number(options.id)
+    this.getWishDetail()
+    this.getIdentifiedType()
+    this.getComments()
+  },
+
+  /**
+   * 获取心愿详情
+   */
+  getWishDetail() {
     var that = this
-    that.setData({
-      goodsID: Number(options.id)
-    })
-    wx.getStorage({
-      key: 'token',
-      success: function(res) {
-        const token = res.data
-        wx.request({
-          url: 'http://localhost:8080/goods/showWishDetail',
-          header: {
-            token
-          },
-          data: {
-            "id": options.id
-          },
-          success(res) {
-            var result = res.data.data
-            console.log(result)
-            result.picUrl = Array.of(result.picUrl.split(','))
-            if (!result.realName) {
-              result.realName = "***"
-            }
-            var identifiedLabel;
-            switch (result.identifiedType) {
-              case 0:
-                identifiedLabel = "未认证"
-                break
-              case 1:
-                identifiedLabel = "学生"
-                break
-            }
-            that.setData({
-              avatarUrl: result.avatarUrl,
-              nickname: result.nickname,
-              identifiedType: result.identifiedType,
-              picUrl: result.picUrl,
-              name: result.name,
-              description: result.description,
-              price: result.price,
-              browseCount: result.browseCount,
-              pubTime: result.pubTime,
-              phone: result.phone,
-              publisherID: result.publisherID,
-              realName: result.realName,
-              identifiedLabel
-            })
-            wx.request({
-              url: 'http://localhost:8080/user/identifiedType',
-              header: {
-                token
-              },
-              success(res) {
-                if (res.data.data.identifiedType == 0) {
-                  var phone = that.data.phone
-                  that.setData({
-                    phone: phone.substring(0, 1) + "*********" + phone.substring(phone.length - 1),
-                    identifiedType: res.data.data.identifiedType
-                  })
-                }
-              }
-            })
-            wx.request({
-              url: 'http://localhost:8080/goods/getComments',
-              header: {
-                token
-              },
-              data: {
-                goodsID: options.id
-              },
-              success(res) {
-                var commentList = res.data.data
-                if (commentList != null) {
-                  that.setData({
-                    commentList
-                  })
-                }
-              }
-            })
-            that.setData({
-              // picUrl: [
-              //   "../../images/search.png",
-              //   "../../images/index.png",
-              //   "../../images/camera.png"
-              // ]
-              picUrl: [],
-              price: null
-            })
-
-          }
-        })
+    const token = wx.getStorageSync('token')
+    wx.request({
+      url: `${app.globalData.hostname}/goods/showWishDetail`,
+      header: {
+        token
       },
+      data: {
+        "id": goodsID
+      },
+      success(res) {
+        var result = res.data.data
+        if (result.picUrl) {
+          result.picUrl = result.picUrl.split(',')
+        }
+        if (!result.realName) {
+          result.realName = "***"
+        }
+        that.setData({
+          avatarUrl: result.avatarUrl,
+          nickname: result.nickname,
+          identifiedType: result.identifiedType,
+          picUrl: result.picUrl,
+          name: result.name,
+          description: result.description,
+          price: result.price,
+          browseCount: result.browseCount,
+          pubTime: result.pubTime,
+          phone: result.phone,
+          publisherID: result.publisherID,
+          realName: result.realName
+        })
+        publisherID = result.publisherID
+      }
     })
+  },
 
+  /**
+   * 获取买家认证类型
+   */
+  getIdentifiedType() {
+    var that = this
+    const token = wx.getStorageSync('token')
+    wx.request({
+      url: `${app.globalData.hostname}/user/identifiedType`,
+      header: {
+        token
+      },
+      success(res) {
+        if (res.data.data.identifiedType == 0) {
+          var phone = that.data.phone
+          that.setData({
+            phone: phone.substring(0, 1) + "*********" + phone.substring(phone.length - 1),
+            identifiedType: res.data.data.identifiedType
+          })
+        }
+      }
+    })
+  },
+
+  /**
+   * 获取评论列表
+   */
+  getComments() {
+    var that = this
+    const token = wx.getStorageSync('token')
+    wx.request({
+      url: `${app.globalData.hostname}/goods/getComments`,
+      header: {
+        token
+      },
+      data: {
+        goodsID
+      },
+      success(res) {
+        var commentList = res.data.data
+        if (commentList != null) {
+          that.setData({
+            commentList
+          })
+        }
+      }
+    })
   },
 
   /**
    * 点击查看大图 
    */
   imgView(e) {
+    var that = this
     var src = e.currentTarget.dataset.src
     var imgList = e.currentTarget.dataset.list
+    for (var i = 0; i < imgList.length; i++) {
+      imgList[i] = that.data.remote_path + imgList[i]
+    }
     wx.previewImage({
       current: src,
       urls: imgList,
     })
   },
 
-
   /**
-   * 点击评论
+   * 输入评论
    */
-  showCommentModal() {
+  inputComment(e) {
     this.setData({
-      showCommentModal: true
+      comment: e.detail.value
     })
   },
 
   /**
-   * 回复评论
+   * 输入框失去焦点
+   */
+  inputBlur(e) {
+    this.setData({
+      height: 0,
+      showContact: true,
+      focus: false
+    })
+    if (!this.data.comment || this.data.comment.length == 0) {
+      this.setData({
+        receiverID: '',
+        commentTip: '评论区留下idea吧'
+      })
+    }
+  },
+
+  /**
+   * 输入框获得焦点
+   */
+  inputFocus(e) {
+    this.setData({
+      height: e.detail.height,
+      showContact: false
+    })
+  },
+
+
+  /**
+   * 点击回复评论
    */
   replyComment(e) {
     var senderID = e.currentTarget.dataset.senderid
@@ -151,75 +186,60 @@ Page({
     this.setData({
       showCommentModal: true,
       commentTip: "回复：" + senderNickname,
-      receiverID:senderID
+      receiverID: senderID,
+      focus: true
     })
   },
 
   /**
    * 发送评论
    */
-  sendComment(e) {
-    var comment = e.detail
-    if(this.data.receiverID){       //回复评论
-      this.postComment(comment,this.data.receiverID)
-    }else{                                  //直接评论
-      this.postComment(comment,this.data.publisherID)
-    }
-   
-  },
-
   send(e) {
     var comment = this.data.comment
-    if (this.data.receiverID) {       //回复评论
+    if (this.data.receiverID) { //回复评论
       this.postComment(comment, this.data.receiverID)
-    } else {                                  //直接评论
+    } else { //直接评论
       this.postComment(comment, this.data.publisherID)
     }
-  },
-
-
-  postComment(comment, receiverID) {
-    var that = this
-    wx.getStorage({
-      key: 'token',
-      success: function(res) {
-        const token = res.data
-        wx.request({
-          url: 'http://localhost:8080/goods/sendComment',
-          method: "POST",
-          header: {
-            token
-          },
-          data: {
-            context: comment,
-            goodsID: that.data.goodsID,
-            receiverID
-          },
-          success(res) {
-            var thisComment=res.data.data
-            that.data.commentList.push(thisComment)
-            that.setData({
-              receiverID:"",                                  
-              comment: "",
-              commentList: that.data.commentList
-            })
-          }
-
-        })
-      },
-    })
-  },
-
-  setComment(e) {
     this.setData({
-      comment: e.detail,
-      commentTip:"说点什么吧"
+      comment: '',
+      receiverID: '',
+      commentTip: '评论区留下idea吧'
     })
   },
 
   /**
- * 进行身份认证
- */
+   * 提交评论到后台
+   */
+  postComment(comment, receiverID) {
+    var that = this
+    const token = wx.getStorageSync('token')
+    if (comment && comment.length > 0) {
+      wx.request({
+        url: `${app.globalData.hostname}/goods/sendComment`,
+        method: "POST",
+        header: {
+          token
+        },
+        data: {
+          context: comment,
+          goodsID,
+          receiverID
+        },
+        success(res) {
+          var thisComment = res.data.data
+          that.data.commentList.push(thisComment)
+          that.setData({
+            commentList: that.data.commentList
+          })
+        }
+      })
+    }
+  },
+
+  /**
+   * 进行身份认证
+   */
   toIdentity() {
     wx.navigateTo({
       url: '/pages/identityConfirm/identityConfirm',
@@ -229,10 +249,10 @@ Page({
   /**
    * 到聊天页
    */
-  toChatBox(){
-    var that=this
+  toChatBox() {
+    var that = this
     wx.navigateTo({
-      url: '/pages/chatBox/chatBox?userID='+that.data.publisherID+"&nickname="+that.data.nickname+"&avatarUrl="+that.data.avatarUrl
+      url: `/pages/chatBox/chatBox?userID=${publisherID}&nickname=${that.data.nickname}&avatarUrl=${that.data.avatarUrl}`
     })
   }
 })

@@ -1,8 +1,8 @@
 {
   "pages": [
-    "pages/message/message",
-    "pages/help/help",
     "pages/index/index",
+    "pages/help/help",
+    "pages/message/message",
     "pages/identityConfirm/identityConfirm",
     "pages/myWishDetail/myWishDetail",
     "pages/myHome/myHome",

@@ -1,20 +1,23 @@
 // miniprogram/pages/chooseSchool/chooseSchool.js
+const app = getApp()
+var schoolArray //数据库中学校名称列表
 Page({
-
   data: {
-    schoolArray: [],
-    searchedSchools: [],
-    schoolName: ''
+    searchedSchools: [], //通过关键字匹配到的学校名称
+    schoolName: '' //输入框中的学校名称
   },
 
+  /**
+   * 页面加载
+   * 获取学校列表
+   */
   onLoad: function(options) {
-
     if (options.modifySchool) {
       this.setData({
-        modifySchool:options.modifySchool
+        modifySchool: options.modifySchool
       })
     }
-    //获取用户地理位置权限
+    //调用用户地理位置接口，以弹出授权地理位置权限
     wx.getLocation({
       type: 'wgs84',
       success: function(res) {
@@ -24,23 +27,24 @@ Page({
 
     let that = this;
     wx.request({
-      url: 'http://localhost:8080/login/selectSchool',
+      url: `${app.globalData.hostname}/login/selectSchool`,
       success(res) {
-        var schoolArray = res.data.data
-        that.setData({
-          schoolArray: schoolArray
-        })
+        schoolArray = res.data.data
       }
     })
   },
 
+  /**
+   * 输入关键字，搜索学校名称
+   */
   searchInputAction: function(e) {
+    var schoolName = e.detail.value;
     this.setData({
-      schoolName: e.detail.value
+      schoolName
     })
     //获取输入值
-    let value = e.detail.value;
-    if (value.length <= 0) {
+
+    if (schoolName.length <= 0) {
       this.setData({
         showSchools: false
       })
@@ -50,56 +54,61 @@ Page({
     this.setData({
       showSchools: true
     })
-    const schoolArray = this.data.schoolArray
+
     var searchedSchools = []
     var id = 1;
-    for (const index in schoolArray) {
-      if (schoolArray[index].indexOf(e.detail.value) >= 0) {
+    schoolArray.forEach((schoolName) => {
+      if (schoolName.indexOf(e.detail.value) >= 0) {
         searchedSchools.push({
           'id': id++,
           'key': e.detail.value,
-          'name': schoolArray[index]
+          'name': schoolName
         })
       }
-    }
+    })
     this.setData({
       searchedSchools
     })
   },
 
-  chooseSearchResultAction: function(e) {
+  /**
+   * 选择学校
+   */
+  chooseSearchResultAction(e) {
     this.setData({
       schoolName: e.target.dataset.name,
       showSchools: false
     })
   },
 
-  setSchool: function() {
-
-      if (this.data.schoolName && this.data.schoolArray.includes(this.data.schoolName)) {
-        if (this.data.modifySchool) {
-          wx.redirectTo({
-            url: '/pages/editMessage/editMessage?schoolName=' + this.data.schoolName,
-          })
-        } else {
+  /**
+   * 提交,如果是用户第一次选择学校，添加该用户到数据库中
+   */
+  submit() {
+    if (this.data.schoolName && schoolArray.includes(this.data.schoolName)) {
+      //修改学校 
+      if (this.data.modifySchool) {
+        wx.redirectTo({
+          url: `/pages/editMessage/editMessage?schoolName=${this.data.schoolName}`,
+        })
+      } else {
+        //第一次选择学校
         const schoolName = this.data.schoolName
         wx.getUserInfo({
           success: res => {
             const nickname = res.userInfo.nickName
             const avatarUrl = res.userInfo.avatarUrl
-            //获取登录态token
             wx.login({
-              success(e) {
+              success(res) {
                 wx.request({
-                  url: 'http://localhost:8080/login/getToken',
+                  url: `${app.globalData.hostname}/login/getToken`,
                   data: {
-                    code: e.code
+                    code: res.code
                   },
                   success(res) {
                     const token = res.data.data.token
-                    //新增用户
                     wx.request({
-                      url: 'http://localhost:8080/user/addUser',
+                      url: `${app.globalData.hostname}/user/addUser`,
                       method: 'POST',
                       data: {
                         schoolName,
@@ -109,13 +118,8 @@ Page({
                       header: {
                         token
                       },
-
                       success(res) {
-                        wx.setStorage({
-                          key: 'token',
-                          data: token
-                        })
-
+                        wx.setStorageSync('token', token)
                         wx.switchTab({
                           url: '/pages/index/index',
                         })
@@ -123,27 +127,21 @@ Page({
                     })
                   }
                 })
-
-
               }
             })
           }
-          
-        })
-        }
-      } else {
-        wx.showModal({
-          title: '警告',
-          content: '该学校不存在，请重新选择',
-          showCancel: false,
-          confirmText: '返回'
-          // success: function(res) {
-          //   if (res.confirm) {
-          //     console.log('用户点击了“返回授权”')
-          //   }
-          // }
+
         })
       }
+    } else {
+      wx.showModal({
+        title: '警告',
+        content: '该学校不存在，请重新选择',
+        showCancel: false,
+        confirmText: '返回'
+      })
+    }
 
   }
+
 })

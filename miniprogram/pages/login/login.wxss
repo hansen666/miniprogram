@@ -1,4 +1,4 @@
-@import "../../style/guide.wxss";
+@import "../../style/list.wxss";
 
 .header {
   display: flex;

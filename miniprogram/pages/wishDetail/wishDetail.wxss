@@ -1,5 +1,5 @@
 /* miniprogram/pages/wishDetail/wishDetail.wxss */
-@import "../goodsDetail/goodsDetail.wxss";
+@import "../../style/goodsDetail.wxss";
 
 .comment-list {
   margin-top: 80rpx;

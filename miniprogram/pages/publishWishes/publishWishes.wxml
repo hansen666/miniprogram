@@ -16,7 +16,7 @@
       <block wx:for="{{tempFilePaths}}" wx:key="{{index}}">
         <view class="image-item">
           <image class="upload-image" src="{{item}}" bindtap="imgView" data-src="{{item}}" data-list="{{tempFilePaths}}"></image>
-          <view class="delete-icon" bindtap='deleteImage' data-index="{{index}}">
+          <view class="delete-icon" bindtap='deleteImage' data-src="{{item}}" data-index="{{index}}">
             <image src="../../images/delete.png" />
           </view>
         </view>

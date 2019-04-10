@@ -7,9 +7,9 @@
   <view class="list">
     <block wx:for="{{goodsList}}" wx:key="*this">
 
-      <view class="list-item" bindtap='toDetail' bindlongpress="edit" data-id="{{item.id}}">
-        <image class="check-icon" bindtap='chooseItemID' data-index="{{index}}" data-id="{{item.id}}" src="{{chosedID[index]==item.id ? '../../images/check.png' : '../../images/uncheck.png' }}" wx:if="{{showCancel}}" />
-        <image src="../../images/index.png" class="pic-url" />
+      <view class="list-item goods-info" bindtap='toDetail' bindlongpress="edit" data-id="{{item.id}}">
+        <image class="check-icon" catchtap='chooseItemID' data-index="{{index}}" data-id="{{item.id}}" src="{{chosedID[index]==item.id ? '../../images/check.png' : '../../images/uncheck.png' }}" wx:if="{{showCancel}}" />
+        <image src="{{remote_path+item.picUrl}}" class="pic-url" />
         <view class="goods-detail">
           <view class="title">{{item.name}}</view>
           <view class="description">{{item.description}}</view>

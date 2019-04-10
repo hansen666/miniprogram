@@ -3,7 +3,7 @@
   <view class="header">
     <view class="search">
       <image class=' search-icon' src='../../images/search.png' bindtap='search'></image>
-      <input name="keyword" class="key-word" focus confirm-type="search" bindconfirm="search" bindinput='inputKeyword' />
+      <input name="keyword" class="key-word" confirm-type="search" bindconfirm="search" bindinput='inputKeyword' />
     </view>
     <view class="label">
       <text bindtap='pullDown'>分类</text>
@@ -16,8 +16,8 @@
   </view>
   <view class="list">
     <block wx:for="{{goodsList}}" wx:key="*this">
-      <view class="list-item" bindtap='toDetail' data-id="{{item.id}}">
-        <image src="../../images/index.png" class="pic-url" />
+      <view class="list-item goods-info" bindtap='toDetail' data-id="{{item.id}}">
+        <image src="{{remote_path+item.picUrl}}" class="pic-url" />
         <view class="goods-detail">
           <view class="title">{{item.name}}</view>
           <view class="description">{{item.description}}</view>

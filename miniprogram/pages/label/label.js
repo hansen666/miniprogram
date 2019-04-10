@@ -1,9 +1,6 @@
 // miniprogram/pages/label/label.js
+var fromPage = ''
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     "labelList": [{
         "id": 2,
@@ -18,7 +15,7 @@ Page({
         "name": "数码产品"
       },
       {
-        "id":5,
+        "id": 5,
         "name": "生活用品"
       },
       {
@@ -33,20 +30,22 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   * 页面加载
+   * 保存来访页
    */
   onLoad: function(options) {
-    if(options.fromPage){
-      this.setData({
-        "fromPage":options.fromPage
-      })
+    if (options.fromPage) {
+      fromPage = options.fromPage
     }
   },
 
-  chooseLabel(e){
+  /**
+   * 选择标签
+   */
+  chooseLabel(e) {
     var label = e.target.dataset
     wx.redirectTo({
-      url: this.data.fromPage+'?label='+JSON.stringify(label),
+      url: `${fromPage}?label=${JSON.stringify(label)}`,
     })
   }
 

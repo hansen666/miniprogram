@@ -1,19 +1,23 @@
 //app.js
 App({
-  onLaunch: function () {
-    
-    if (!wx.cloud) {
-      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
-    } else {
-      wx.cloud.init({
-        traceUser: true,
-      })
-    }
+  onLaunch: function() {
+
+    // if (!wx.cloud) {
+    //   console.error('请使用 2.2.3 或以上的基础库以使用云能力')
+    // } else {
+    //   wx.cloud.init({
+    //     traceUser: true,
+    //   })
+    // }
 
     this.globalData = {
-      fontMaxLength:35,
-      labelList:[
-        {
+      fontMaxLength: 35,
+      //hostname:"http://localhost:8080",
+      hostname: "https://www.compusshare.cn",
+      REMOTE_PATH: "https://www.compusshare.cn/weshare",
+      //webSocketUrl: "ws://localhost:8080/chat",
+      webSocketUrl: "wss://www.compusshare.cn/chat",
+      labelList: [{
           "id": 0,
           "name": "全部"
         },

@@ -12,7 +12,7 @@
     <text class="title list-item">基础资料</text>
         <view class="list-item">
       <text>身份</text>
-      <input class="identity" name="identity" disabled value='{{identity}}' />
+      <input class="identity" name="identity" disabled value="{{identifiedType==0?'未认证':'学生'}}" />
     </view>
     <view class="list-item">
       <text>昵称</text>
@@ -24,7 +24,7 @@
     </view>
     <view class="list-item">
       <text>毕业院校</text>
-      <input class="school-name" name="schoolName" value='{{schoolName}}' style='color:{{color}}' disabled bindtap="chooseSchool"/>
+      <input class="school-name" name="schoolName" value='{{schoolName}}' style="color:{{identifiedType==1?'#aaa':'black'}}" disabled bindtap="chooseSchool"/>
     </view>
     <view class="list-item">
       <text>手机号</text>

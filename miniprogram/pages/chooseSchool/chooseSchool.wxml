@@ -11,7 +11,7 @@
     </block>
   </scroll-view>
   <view class="footer">
-    <button class="confirm" bindtap='setSchool' type='primary'>
+    <button class="confirm" bindtap='submit' type='primary'>
       确定
     </button>
   </view>

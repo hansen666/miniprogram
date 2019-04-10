@@ -2,13 +2,12 @@
 const app = getApp()
 
 Page({
+  data: {},
 
   /**
-   * 页面的初始数据
+   * 页面加载
    */
-  data: {
-
-  },
+  onLoad: function(options) {},
 
   /**
    * 用户授权处理函数
@@ -16,25 +15,20 @@ Page({
   binGetUserInfo: function(e) {
     if (e.detail.userInfo) {
       wx.login({
-        success(e) {
-          if (e.code) {
+        success(res) {
+          if (res.code) {
             wx.request({
-              url: 'http://localhost:8080/login/getToken',
+              url: `${app.globalData.hostname}/login/getToken`,
               data: {
-                code: e.code
+                code: res.code
               },
               success(res) {
                 if (!res.data.data.isNewUser) {
-                  console.log(res.data.data.token)
-                  wx.setStorage({
-                    key: 'token',
-                    data: res.data.data.token
-                  })
+                  wx.setStorageSync('token', res.data.data.token)
                   wx.switchTab({
                     url: '/pages/index/index',
                   })
                 } else {
-
                   wx.redirectTo({
                     url: '/pages/chooseSchool/chooseSchool',
                   })
@@ -47,9 +41,6 @@ Page({
           }
         }
       })
-      //判断该用户是否选择了学校
-
-      //
     } else {
       //用户点了拒绝按钮
       wx.showModal({
@@ -64,41 +55,6 @@ Page({
         }
       })
     }
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-
-  },
-
-
-
-
-
-
-
-
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
-
   }
+
 })

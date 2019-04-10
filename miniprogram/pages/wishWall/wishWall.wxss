@@ -1,10 +1,13 @@
 /* miniprogram/pages/wishWall/wishWall.wxss */
-@import "../../style/guide.wxss";
+@import "../../style/list.wxss";
+@import "../../style/empty.wxss";
+@import "../../style/goodsInfo.wxss";
 
 .label-list{
   display: flex;
   white-space: nowrap;
   border-bottom: solid 1rpx #aaa;
+  margin-right:30rpx;
 }
 
 .label-item{
@@ -24,12 +27,10 @@
 .list{
   margin-top:0
 }
-.lis-item{
-  justify-content: space-between;
-  height:220rpx;
-}
 
-.list-item .userinfo{
+
+
+/* .list-item .userinfo{
   display: flex;
   width: 100rpx;
   flex-direction: column;
@@ -76,16 +77,16 @@
 }
 
 .distance-item {
-  margin-top: 30rpx;
+  margin-top: 50rpx;
   display: flex;
   flex-direction: column;
-  width: 120rpx;
+  width: 80rpx;
   height: 100%;
 }
 
 .distance-item .location{
   width: 100%;
-  height: 100rpx;
+  height: 80rpx;
 }
 
 .distance-item .distance{
@@ -93,21 +94,7 @@
   line-height: 60rpx;
   font-size: 25rpx;
   text-align: center;
-}
+} */
 
 
-.empty{
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  color: #aaa;
-}
 
-.empty image{
-  width: 200rpx;
-  height: 200rpx;
-  margin-top:200rpx;
-
-}

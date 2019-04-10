@@ -2,7 +2,7 @@
 <view class="container">
   <view class="userInfo">
     <image class="avatarUrl" src="{{avatarUrl}}" />
-    <text class="nickname">{{nickName}}</text>
+    <text class="nickname">{{nickname}}</text>
   </view>
   <view class="id-info">
     <view class="ID" bindtap='toIdentityConfirm'>

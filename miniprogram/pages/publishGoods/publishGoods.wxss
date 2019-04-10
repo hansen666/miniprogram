@@ -1,5 +1,5 @@
 /* miniprogram/pages/publishGoods/publishGoods.wxss */
-@import "../../style/guide.wxss";
+@import "../../style/list.wxss";
 
 form {
   font-size:30rpx;

@@ -3,13 +3,13 @@
   <view class="header">
     <image src="{{avatarUrl}}" />
     <text class="nickname">{{nickname}}</text>
-    <text class="identifiedLabel">{{identifiedLabel}}</text>
+    <text class="identifiedLabel">{{identifiedType==0?'未认证':'学生'}}</text>
   </view>
   <view class="photos">
     <swiper indicator-dots="true" autoplay="true" interval="3000" duration="500" circular="true">
       <block wx:for="{{picUrl}}" wx:key="*this">
         <swiper-item>
-          <image src="{{item}}" bindtap="imgView" data-src="{{item}}" data-list="{{picUrl}}"   class="slide-image" width="355" height="150" />
+          <image src="{{remote_path+item}}" bindtap="imgView" data-src="{{remote_path+item}}" data-list="{{picUrl}}" class="slide-image" width="355" height="150" />
         </swiper-item>
       </block>
     </swiper>
@@ -18,8 +18,8 @@
     <view class="name-price">
       <text class="name">{{name}}</text>
       <view class="price">
-        <image src="../../images/rmb.png"></image>{{price}}</view>
-
+        <image src="../../images/rmb.png"></image>{{price}}
+      </view>
     </view>
     <view class="description-browse">
       <textarea class="description" disabled='true'>{{description}}</textarea>
@@ -37,15 +37,16 @@
         <text class="label">联系电话</text>
         <text class="phone">{{phone}}</text>
       </view>
-      <view class="warn" wx:if="{{identifiedType==0}}">为保障用户信息安全，请先进行<text class="toIdentity" bindtap='toIdentity' style="color:green">身份认证</text>，认证之后即可看到联系方式</view>
+      <view class="warn" wx:if="{{identifiedType==0}}">为保障用户信息安全，请先进行
+        <text class="toIdentity" bindtap='toIdentity' style="color:green">身份认证</text>，认证之后即可看到联系方式</view>
     </view>
   </view>
   <view class="footer">
     <view class="collection">
       <image src="{{collected?'../../images/collection-chosed.png':'../../images/collection.png'}}" bindtap="collection" />
-      <text >收藏</text>
+      <text>收藏</text>
     </view>
-    <button bindtap=''>联系它</button>
+    <button bindtap='toChatBox'>联系它</button>
   </view>
 
 </view>

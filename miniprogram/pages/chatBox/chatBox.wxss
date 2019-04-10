@@ -3,8 +3,8 @@
 .container {
   position: relative;
   width: 100%;
-  height: calc(100% - 200rpx);
-  margin-bottom: 200rpx;
+  background-color: #fff;
+  padding-bottom: 200rpx;
 }
 
 .time{

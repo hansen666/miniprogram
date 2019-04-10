@@ -1,9 +1,7 @@
 // miniprogram/pages/publish/publish.js
-Page({
+const app = getApp()
 
-  /**
-   * 页面的初始数据
-   */
+Page({
   data: {
     textArray: [
       "1，用户发布的物品经后台审核通过才会展示出来",
@@ -15,17 +13,22 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   * 页面加载
    */
-  onLoad: function(options) {
+  onLoad: function(options) {},
 
-  },
-
+  /**
+   * 到发布二手物页
+   */
   toGoods(){
     wx.navigateTo({
       url: '/pages/publishGoods/publishGoods',
     })
   },
+
+  /**
+   * 到发布心愿页
+   */
     toWishes() {
     wx.navigateTo({
       url: '/pages/publishWishes/publishWishes',

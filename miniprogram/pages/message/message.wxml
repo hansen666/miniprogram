@@ -16,4 +16,8 @@
       </view>
     </view>
   </block>
+  <view class="empty" wx:if="{{empty}}">
+    <image src="../../images/empty.png" />
+    <text>您还没收到过任何消息哦</text>
+  </view>
 </view>

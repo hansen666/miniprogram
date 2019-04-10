@@ -1,138 +1,111 @@
 // miniprogram/pages/editMessage/editMessage.js
+const app = getApp()
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-  data: {  
+  data: {
+    avatarUrl: '', //头像
+    identifiedType: 0, //认证类型：0-未认证，1-学生
+    nickname: '', //昵称
+    realName: '', //真实姓名
+    schoolName: '', //学校名称
+    phone: '', //电话
+    wxNumber: '', //微信号
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   * 页面加载
+   * 获取用户基本信息
+   * 
    */
-  onLoad: function (options) {
-    var that=this
-
-      wx.getStorage({
-        key: 'token',
-        success: function(res) {
-          const token=res.data
-          wx.request({
-            url: 'http://localhost:8080/user/information',
-            header:{
-              token
-            },
-            success(res){
-
-              var userInfo=res.data.data;
-              that.setData({
-                avatarUrl:userInfo.avatarUrl,
-                nickname:userInfo.nickname,
-                realName:userInfo.realName,
-                schoolName:userInfo.schoolName,
-                phone:userInfo.phone,
-                wxNumber:userInfo.wxNumber,
-                identifiedType:userInfo.identifiedType
-              })
-              if (userInfo.identifiedType==0){
-                  that.setData({
-                    identity:"未认证"
-                  })
-              } else if (userInfo.identifiedType==1){
-                that.setData({
-                  color: "#aaa",
-                  identity: "学生"
-                })
-              }else{
-                that.setData({
-                  color: "#aaa",
-                  identity: "老师"
-                })
-              }
-              if (options.schoolName) {
-                that.setData({
-                  schoolName: options.schoolName
-                })
-              }
-            }
+  onLoad: function(options) {
+    var that = this
+    const token = wx.getStorageSync('token')
+    wx.request({
+      url: `${app.globalData.hostname}/user/information`,
+      header: {
+        token
+      },
+      success(res) {
+        var userInfo = res.data.data;
+        that.setData({
+          avatarUrl: userInfo.avatarUrl,
+          nickname: userInfo.nickname,
+          realName: userInfo.realName,
+          schoolName: userInfo.schoolName,
+          phone: userInfo.phone,
+          wxNumber: userInfo.wxNumber,
+          identifiedType: userInfo.identifiedType
+        })
+        if (options.schoolName) {
+          that.setData({
+            schoolName: options.schoolName
           })
-        },
-      })
-
+        }
+      }
+    })
 
   },
 
   /**
    * 更换头像
    */
-  chooseAvatarUrl(){
-    var that=this
+  chooseAvatarUrl() {
+    var that = this
     wx.chooseImage({
       count: 1,
       sizeType: ['compressed'],
       sourceType: ['album', 'camera'],
       success(res) {
-        const tempFilePaths = res.tempFilePaths
-        wx.getStorage({
-          key: 'token',
-          success: function(res) {
-            const token=res.data
-            wx.uploadFile({
-              url: "http://localhost:8080/goods/imageUpload",
-              filePath: tempFilePaths[0],
-              name: "file",
+        const tempFilePath = res.tempFilePaths[0]
+        const token = wx.getStorageSync('token')
+        wx.uploadFile({
+          url: `${app.globalData.hostname}/goods/imageUpload`,
+          filePath: tempFilePath,
+          name: "file",
+          header: {
+            token
+          },
+          formData: {
+            filePath: "avatar"
+          },
+          success(res) {
+            if (JSON.parse(res.data).code == -1) {
+              console.log("上传文件错误")
+              return
+            }
+            var avatarUrl = JSON.parse(res.data).data.fileName
+            that.setData({
+              avatarUrl
+            })
+            wx.request({
+              url: `${app.globalData.hostname}/user/modify`,
+              method: "POST",
               header: {
                 token
               },
-              formData: {
-                id: 1,
-                filePath: "avatar"
+              data: {
+                avatarUrl
               },
               success(res) {
-                if (JSON.parse(res.data).code == -1) {
-                  console.log("上传文件错误")
-                  return
-                }
-                var avatarUrl=JSON.parse(res.data).data.fileName
-                wx.request({
-                  url: 'http://localhost:8080/user/modify',
-                  method: "POST",
-                  header: {
-                    token
-                  },
-                  data: {
-                   avatarUrl
-                  },
-                  success(res) {
-                    //TODO  替换为 更换后的头像
-                    console.log("success")
-                    // wx.switchTab({
-                    //   url: '/pages/myHome/myHome',
-                    // })
-                  }
-                })
-              },
-              fail(res) {
-                console.log("fail")
               }
             })
           },
+          fail(err) {
+            console.log("fail", err)
+          }
         })
-        
-      }
+      },
     })
   },
 
-/**
- * 选择学校
- */
-  chooseSchool(){
-
-    if (this.data.identifiedType==0){
-    wx.navigateTo({
-      url: '/pages/chooseSchool/chooseSchool?modifySchool='+true,
-    })
-    }else{
+  /**
+   * 选择学校
+   */
+  chooseSchool() {
+    if (this.data.identifiedType == 0) {
+      wx.navigateTo({
+        url: '/pages/chooseSchool/chooseSchool?modifySchool=' + true,
+      })
+    } else {
       wx.showToast({
         title: '认证后的用户暂时无法修改学校',
         icon: 'none',
@@ -140,37 +113,31 @@ Page({
       })
     }
   },
- /**
-  * 保存修改
-  */
-  save(e){
-    console.log(e);
-    var that=this
-    wx.getStorage({
-      key: 'token',
-      success: function(res) {
-        const token=res.data
-        wx.request({
-          url: 'http://localhost:8080/user/modify',
-          method: "POST",
-          header: {
-            token
-          },
-          data:{
-            nickname: e.detail.value.nickname,
-            realName: e.detail.value.realName,
-            schoolName: e.detail.value.schoolName,
-            phone: e.detail.value.phone,
-            wxNumber: e.detail.value.wxNumber
-          },
-          success(res){
-            wx.switchTab({
-              url: '/pages/myHome/myHome',
-            })
-          }
-        })
-      },
-    })
 
+  /**
+   * 保存修改
+   */
+  save(e) {
+    const token = wx.getStorageSync('token')
+    wx.request({
+      url: `${app.globalData.hostname}/user/modify`,
+      method: "POST",
+      header: {
+        token
+      },
+      data: {
+        nickname: e.detail.value.nickname,
+        realName: e.detail.value.realName,
+        schoolName: e.detail.value.schoolName,
+        phone: e.detail.value.phone,
+        wxNumber: e.detail.value.wxNumber
+      },
+      success(res) {
+        wx.switchTab({
+          url: '/pages/myHome/myHome',
+        })
+      }
+    })
   }
+
 })
