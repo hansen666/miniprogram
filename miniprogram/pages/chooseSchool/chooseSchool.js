@@ -21,7 +21,6 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: function(res) {
-        console.log(res)
       }
     })
 

@@ -1,0 +1,42 @@
+<!--miniprogram/pages/myGoodsDetail/myGoodsDetail.wxml-->
+<view class="container">
+  <view class="header">
+    <image src="{{avatarUrl}}" />
+    <text class="nickname">{{nickname}}</text>
+    <text class="identifiedLabel" bindtap='toEdit' wx:if="{{showEdit}}">编辑</text>
+  </view>
+  <view class="photos">
+    <swiper indicator-dots="true" autoplay="true" interval="3000" duration="500" circular="true">
+      <block wx:for="{{picUrl}}" wx:key="*this">
+        <swiper-item>
+          <image src="{{remote_path+item}}" bindtap="imgView" data-src="{{remote_path+item}}" data-list="{{picUrl}}" class="slide-image" width="355" height="150" />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <view class="detail">
+    <view class="name-price">
+      <text class="name">{{name}}</text>
+      <view class="price">
+        <image src="../../images/rmb.png"></image>{{price}}
+      </view>
+    </view>
+    <view class="description-browse">
+      <textarea class="description" disabled='true'>{{description}}</textarea>
+      <text class="browse-count">浏览{{browseCount}}次</text>
+    </view>
+    <view class="pubTime">
+      {{pubTime}}
+    </view>
+    <view class="contact">
+      <view class="real-name-item">
+        <text class="label"> 联系人</text>
+        <text class="real-name">{{realName}}</text>
+      </view>
+      <view class="phone-item">
+        <text class="label">联系电话</text>
+        <text class="phone">{{phone}}</text>
+      </view>
+    </view>
+  </view>
+</view>

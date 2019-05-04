@@ -158,5 +158,12 @@ Page({
         }
       }
     })
-  }
+  },
+
+  //进入到详情页，编辑物品
+  toDetail(e) {
+    wx.navigateTo({
+      url: `/pages/myGoodsDetail/myGoodsDetail?id=${e.currentTarget.dataset.id}&noEdit=true`
+    })
+  },
 })

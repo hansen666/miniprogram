@@ -4,7 +4,7 @@ var socketOpen = false
 var SocketTask; //webSocket
 var recorder = wx.getRecorderManager() //录音管理上下文
 const innerAudioContext = wx.createInnerAudioContext() //获取播放对象
-var voice_start_date, voice_start_point, sendLock
+var voice_start_date,voice_end_date, voice_start_point, sendLock
 var userID, nickname
 Page({
   data: {
@@ -28,7 +28,6 @@ Page({
    */
   onLoad: function(options) {
     userID = options.userID
-    console.log(userID)
     nickname = options.nickname
     this.setData({
       otherAvatarUrl: options.avatarUrl
@@ -138,7 +137,6 @@ Page({
       isFirstMessage: this.data.messageCount == 0 ? 1 : 0
     }
     this.handleMessage(this.data.msg, 0, 0)
-    console.log("send 文字")
     this.setData({
       sendText: false,
       msg: "",
@@ -263,10 +261,10 @@ Page({
   on_recorder() {
     var that = this
     recorder.onStart(res => {
-      console.log("录音开始")
     })
     recorder.onStop(res => {
-      var voice_time = new Date().getTime() - voice_start_date
+      voice_end_date=new Date().getTime()
+      var voice_time = voice_end_date - voice_start_date
       if (voice_time > 1000) { //时长超过1s才进行发送
         that.uploadVoice(res.tempFilePath)
       }
@@ -277,7 +275,6 @@ Page({
    * 上传音频文件
    */
   uploadVoice(voiceFile) {
-
     var that = this
     const token = wx.getStorageSync('token')
     wx.uploadFile({
@@ -313,6 +310,7 @@ Page({
       userId: userID,
       type: 2,
       content: voiceName,
+      audioLength:Math.floor((voice_end_date-voice_start_date)/1000),
       isFirstMessage: this.data.messageCount == 0 ? 1 : 0
     }
     this.bottom()
@@ -327,6 +325,9 @@ Page({
       content,
       type,
       from
+    }
+    if(type==2){
+      message.audioLength = Math.floor((voice_end_date-voice_start_date)/1000)
     }
     if (this.data.messageCount == 0) {
       var messageList = this.data.messageList
@@ -363,7 +364,6 @@ Page({
           SocketTask.send({
             data: JSON.stringify(message),
             success(res) {
-              console.log("已发送：" + res)
             }
           })
         } else {
@@ -376,7 +376,6 @@ Page({
       SocketTask.send({
         data: JSON.stringify(message),
         success(res) {
-          console.log("已发送：" + res)
         }
       })
     }
@@ -396,7 +395,6 @@ Page({
       },
       method: 'POST',
       success(res) {
-        console.log("建立WebSocket连接：" + res)
         return true
       },
       fail(err) {
@@ -417,20 +415,16 @@ Page({
     var that=this
     SocketTask.onOpen(onOpen => {
       socketOpen = true
-      console.log("监听webSocket连接打开事件:" + onOpen)
     })
     SocketTask.onClose(onClose => {
       socketOpen = false
-      console.log("监听webSocket连接关闭事件:" + onClose)
     })
     SocketTask.onError(onError => {
       socketOpen = false
-      console.log("监听webSocket连接错误:" + onError)
     })
     SocketTask.onMessage(onMessage => {
       var message = JSON.parse(onMessage.data)
       that.handleMessage(message.content, message.type, 1)
-      console.log("接收到的服务器端的消息：" + onMessage.data)
     })
   },
 
@@ -441,7 +435,6 @@ Page({
     if (SocketTask) {
       SocketTask.close((close) => {
         socketOpen = false
-        console.log("关闭websocket连接：" + close)
       })
     }
   },

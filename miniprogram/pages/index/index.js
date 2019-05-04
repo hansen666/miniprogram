@@ -25,7 +25,6 @@ Page({
    */
   onLoad: function() {
     this.checkAuthUserInfo()
-    this.checkGPSOpened()
   },
 
   /**
@@ -37,6 +36,7 @@ Page({
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
+          this.checkGPSOpened()
           wx.login({
             success(res) {
               if (res.code) {

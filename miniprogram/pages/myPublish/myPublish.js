@@ -17,8 +17,12 @@ Page({
    * 页面加载
    * 获取物品列表
    */
-  onLoad: function(options) {
-    this.getGoodsList()
+  onShow: function(options) {
+    if (this.data.pageType == 0) {
+      this.getGoodsList()
+    } else {
+      this.getWishList()
+    }
   },
 
   /**
@@ -177,7 +181,7 @@ Page({
   toDetail(e) {
     if (this.data.pageType == 0) {
       wx.navigateTo({
-        url: '/pages/publishGoods/publishGoods?id=' + e.currentTarget.dataset.id
+        url: '/pages/myGoodsDetail/myGoodsDetail?id=' + e.currentTarget.dataset.id
       })
     } else {
       wx.navigateTo({
@@ -202,7 +206,7 @@ Page({
         var goodsList = res.data.data
         if (goodsList && goodsList.length > 0) {
           goodsList.forEach((item) => {
-            item.picUrl=item.picUrl.split(',')[0]
+            item.picUrl = item.picUrl.split(',')[0]
             labelList.forEach((label) => {
               if (item.label == label.id) {
                 item.label = label

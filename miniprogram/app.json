@@ -20,7 +20,9 @@
     "pages/myCollection/myCollection",
     "pages/myPublish/myPublish",
     "pages/identityConfirmSuccess/identifyConfirmSuccess",
-    "pages/chatBox/chatBox"
+    "pages/chatBox/chatBox",
+    "pages/myGoodsDetail/myGoodsDetail",
+    "pages/feedBack/feedBack"
   ],
   "permission": {
     "scope.userLocation": {
@@ -69,5 +71,6 @@
       }
     ]
   },
-  "debug": true
+  "debug": true,
+  "sitemapLocation": "sitemap.json"
 }

@@ -53,6 +53,15 @@ Page({
   },
 
   /**
+ * 到反馈页
+ */
+  toFeedBack() {
+    wx.navigateTo({
+      url: '/pages/feedBack/feedBack',
+    })
+  },
+
+  /**
    * 到身份认证页
    */
   toIdentityConfirm() {

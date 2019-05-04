@@ -26,6 +26,7 @@ Page({
         description: data.description,
         price: data.price,
         phone: data.phone,
+        id:data.id,
         tempFilePaths: data.tempFilePaths,
         submitType: data.submitType,
         label: JSON.parse(options.label)
@@ -53,7 +54,7 @@ Page({
               goodsDetail.label = label
             }
           })
-          var picUrl=[]
+          var picUrl = []
           if (goodsDetail.picUrl) {
             picUrl = goodsDetail.picUrl.split(',');
             for (let i = 0; i < picUrl.length; i++) {
@@ -65,6 +66,7 @@ Page({
             description: goodsDetail.description,
             price: goodsDetail.price,
             phone: goodsDetail.phone,
+            imageCount: 4 - picUrl.length,
             tempFilePaths: picUrl,
             label: goodsDetail.label,
             submitType: "保存"
@@ -176,11 +178,6 @@ Page({
       var that = this
       var fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1)
       const token = wx.getStorageSync('token')
-      console.log({
-        id: that.data.id,
-        imageName: fileName,
-        method: "want"
-      })
       wx.request({
         url: `${app.globalData.hostname}/goods/deleteImage`,
         method: "POST",
@@ -294,8 +291,8 @@ Page({
                         url: '/pages/publish/publish',
                       })
                     } else {
-                      wx.redirectTo({
-                        url: '/pages/myPublish/myPublish',
+                      wx.navigateBack({
+                        delta: 2
                       })
                     }
                   }

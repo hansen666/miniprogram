@@ -11,7 +11,7 @@
         </view>
         <view class="info-content">
           <text class="content">{{item.content}}</text>
-          <image class="red-point" src="../../images/red-point.png/" wx:if="{{item.read==0}}" />
+          <image class="red-point" src="../../images/red-point.png" wx:if="{{item.read==0}}" />
         </view>
       </view>
     </view>

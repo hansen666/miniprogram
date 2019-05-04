@@ -9,13 +9,15 @@
         <image class="image-item" src="{{remote_path+'photos/'+message.content}}" wx:if="{{message.type==1}}" mode="aspectFit" bindtap='imgView' data-src="{{remote_path+'photos/'+message.content}}"></image>
         <view class="other-audio-item audio-item" wx:if="{{message.type==2}}" data-audioPath="{{remote_path+'voice/'+message.content}}" bindtap='playAudio'>
           <image src="../../images/otherVoice.png"></image>
+          <text class="audioTime">{{message.audioLength}}''</text>
         </view>
       </view>
       <view wx:else class="mine message">
         <text class="plainText" wx:if="{{message.type==0}}">{{message.content}}</text>
         <image class="image-item" wx:if="{{message.type==1}}" src="{{remote_path+'photos/'+message.content}}" mode="aspectFit" bindtap='imgView' data-src="{{remote_path+'photos/'+message.content}}"></image>
         <view class="my-audio-item audio-item" wx:if="{{message.type==2}}" data-audioPath="{{remote_path+'voice/'+message.content}}" bindtap='playAudio'>
-          <image src="../../images/myVoice.png"></image>
+         <text class="audioTime">{{message.audioLength}}''</text>
+          <image src="../../images/myVoice.png"></image>   
         </view>
         <image class="avatar-url" src="{{myAvatarUrl}}" />
       </view>

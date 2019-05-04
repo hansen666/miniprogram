@@ -18,7 +18,6 @@ Page({
    * 页面加载
    */
   onLoad: function(options) {
-    console.log(this.route)
     var that = this
     //从分类标签页过来
     if (options.label) {
@@ -28,6 +27,7 @@ Page({
         description: data.description,
         price: data.price,
         phone: data.phone,
+        id:data.id,
         tempFilePaths: data.tempFilePaths,
         submitType: data.submitType,
         label: JSON.parse(options.label)
@@ -51,9 +51,9 @@ Page({
               goodsDetail.label = label
             }
           })
-          
-            var picUrl = goodsDetail.picUrl.split(',');
-          
+
+          var picUrl = goodsDetail.picUrl.split(',');
+
           for (let i = 0; i < picUrl.length; i++) {
             picUrl[i] = `${app.globalData.REMOTE_PATH}/publish/${picUrl[i]}`
           }
@@ -144,7 +144,6 @@ Page({
           tempFilePaths: that.data.tempFilePaths.concat(tempFilePaths),
           imageCount: that.data.imageCount - tempFilePaths.length
         })
-        console.log(that.data.tempFilePaths, that.data.imageCount)
       }
     })
 
@@ -265,7 +264,6 @@ Page({
           } else if (that.data.submitType == "保存") {
             urlString = `${app.globalData.hostname}/goods/modifyMyPublish`
           }
-          console.log(picUrl)
           wx.request({
             url: urlString,
             method: "POST",
@@ -296,8 +294,8 @@ Page({
                         url: '/pages/publish/publish',
                       })
                     } else {
-                      wx.redirectTo({
-                        url: '/pages/myPublish/myPublish',
+                      wx.navigateBack({
+                        delta: 2
                       })
                     }
                   }

@@ -1,0 +1,23 @@
+/* miniprogram/pages/feedBack/feedBack.wxss */
+.tip{
+  margin:20rpx;
+  color:#666;
+}
+
+.content{
+  width: calc(100% - 80rpx);
+  margin:20rpx;
+  padding:20rpx;
+  min-height: 60rpx;
+  border: solid 1rpx rgba(0,0,0,0.1)
+}
+
+button{
+  height:100rpx;
+  width: calc(100% - 40rpx);
+  margin-top:50rpx;
+  font-size: 35rpx;
+  text-align: center;
+}
+
+

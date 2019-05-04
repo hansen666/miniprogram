@@ -41,6 +41,4 @@
       <text bindtap='delete'>删除</text>
     </view>
   </view>
-
-
 </view>

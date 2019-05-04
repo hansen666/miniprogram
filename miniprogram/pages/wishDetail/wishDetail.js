@@ -88,11 +88,14 @@ Page({
         token
       },
       success(res) {
-        if (res.data.data.identifiedType == 0) {
+        var identifiedType=res.data.data.identifiedType
+        that.setData({
+          identifiedType
+        })
+        if (identifiedType == 0) {
           var phone = that.data.phone
           that.setData({
             phone: phone.substring(0, 1) + "*********" + phone.substring(phone.length - 1),
-            identifiedType: res.data.data.identifiedType
           })
         }
       }

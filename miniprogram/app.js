@@ -13,10 +13,10 @@ App({
     this.globalData = {
       fontMaxLength: 35,
       //hostname:"http://localhost:8080",
-      hostname: "https://www.compusshare.cn",
-      REMOTE_PATH: "https://www.compusshare.cn/weshare",
+      hostname: "https://www.compusshare.cn/weshare",
+      REMOTE_PATH: "https://www.compusshare.cn/static",
       //webSocketUrl: "ws://localhost:8080/chat",
-      webSocketUrl: "wss://www.compusshare.cn/chat",
+      webSocketUrl: "wss://www.compusshare.cn/weshare/chat",
       labelList: [{
           "id": 0,
           "name": "全部"
@@ -47,7 +47,5 @@ App({
         }
       ]
     }
-
-
   }
 })

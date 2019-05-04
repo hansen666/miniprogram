@@ -1,0 +1,6 @@
+<!--miniprogram/pages/feedBack/feedBack.wxml-->
+<view class="container">
+<text class="tip">提示：您有任何使用上的不便之处或者一些好的建议，都可以在这发给我们，我们会尽最大努力，提高用户的使用体验</text>
+<textarea class="content" auto-height bindinput='inputContent'></textarea>
+<button type="primary" bindtap="submit">提交</button>
+</view>

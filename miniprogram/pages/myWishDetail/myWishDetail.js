@@ -94,7 +94,6 @@ Page({
       },
       success(res) {
         var commentList = res.data.data
-        console.log(commentList)
         if (commentList != null) {
           that.setData({
             commentList
